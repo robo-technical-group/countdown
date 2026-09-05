@@ -16,6 +16,11 @@ function runIntro(): void {
     g_gameMode = SpriteKind.Intro
 }
 
+function runSplash(): void {
+    RtgSplash.beginSplash()
+    g_gameMode = SpriteKind.Splash
+}
+
 /**
  * Event handlers
  */
@@ -25,9 +30,17 @@ game.onUpdate(() => {
             if (WordLists.isReady()) {
                 g_gameMode = SpriteKind.None
                 Intro.endIntro()
+                runSplash()
             } else if (!WordLists.isBuilding()) {
                 Intro.update()
                 WordLists.buildNextWordSet()
+            }
+            break
+        
+        case SpriteKind.Splash:
+            if (!RtgSplash.isRunning()) {
+                g_gameMode = SpriteKind.None
+                RtgSplash.endSplash()
             }
             break
     }
