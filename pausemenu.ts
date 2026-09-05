@@ -4,6 +4,7 @@
  */
 namespace PauseMenu {
     enum Items {
+        EnableTutorials,
         VolumeDown,
         VolumeUp,
         BrightnessDown,
@@ -15,6 +16,7 @@ namespace PauseMenu {
     }
 
     const MENU_TEXT: string[] = [
+        'Enable tutorials',
         'Volume down',
         'Volume up',
         'Brightness up',
@@ -26,6 +28,7 @@ namespace PauseMenu {
     ]
 
     const MENU_TEXT_ALTERNATE: string[] = [
+        'Disable tutorials',
         '',
         '',
         '',
@@ -104,6 +107,10 @@ namespace PauseMenu {
 
     function processSelection(selection: string, selectedIndex: number): void {
         switch (selectedIndex) {
+            case Items.EnableTutorials:
+                toggleTutorials()
+                break
+            
             case Items.VolumeDown:
                 changeVolume(-1)
                 break
@@ -172,6 +179,7 @@ namespace PauseMenu {
         updateConsole()
         updateStats()
         updateVolume()
+        updateTutorials()
         menu.onButtonPressed(miniMenu.Button.A, processSelection)
         menu.onButtonPressed(miniMenu.Button.B, processSelection)
         isMenuRunning = true
@@ -191,6 +199,15 @@ namespace PauseMenu {
         isShowingStats = !isShowingStats
         game.stats = isShowingStats
         updateStats()
+    }
+
+    function toggleTutorials(): void {
+        if (Tutorial.areEnabled()) {
+            Tutorial.disable()
+        } else {
+            Tutorial.enable()
+        }
+        updateTutorials()
     }
 
     function updateBrightness(): void {
@@ -213,6 +230,12 @@ namespace PauseMenu {
         if (!isShowingStats && control.EventContext.onStats) {
             control.EventContext.onStats('');
         }
+    }
+
+    function updateTutorials(): void {
+        menu.items[Items.EnableTutorials].text = Tutorial.areEnabled() ?
+            MENU_TEXT_ALTERNATE[Items.EnableTutorials] :
+            MENU_TEXT[Items.EnableTutorials]
     }
 
     function updateVolume(): void {

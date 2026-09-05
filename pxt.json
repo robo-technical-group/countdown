@@ -29,6 +29,7 @@
         "players.ts",
         "setup.ts",
         "splash.ts",
+        "tutorial.ts",
         "wordlists.ts"
     ],
     "testFiles": [

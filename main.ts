@@ -31,6 +31,10 @@ function runSplash(): void {
     g_gameMode = SpriteKind.Splash
 }
 
+function start(): void {
+    Tutorial.firstTutorial()
+}
+
 /**
  * Event handlers
  */
@@ -59,6 +63,9 @@ game.onUpdate(() => {
             if (!Setup.isRunning() && !Melodies.playing()) {
                 g_gameMode = SpriteKind.None
                 Setup.endSetup()
+                timer.after(1250, () => {
+                    start()
+                })
             }
             break
     }
@@ -67,4 +74,5 @@ game.onUpdate(() => {
 /**
  * Main
  */
-runIntro()
+//runIntro()
+start()
