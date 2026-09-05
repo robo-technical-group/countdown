@@ -8,7 +8,8 @@
         "arcade-text": "github:microsoft/arcade-text#v1.3.0",
         "Color Fading": "github:jwunderl/pxt-color#v0.2.3",
         "arcade-fancy-text": "github:riknoll/arcade-fancy-text#v0.2.2",
-        "arcade-mml": "github:riknoll/arcade-mml#v0.0.2"
+        "arcade-mml": "github:riknoll/arcade-mml#v0.0.2",
+        "arcade-mini-menu": "github:riknoll/arcade-mini-menu#v0.1.0"
     },
     "files": [
         "main.blocks",
@@ -24,6 +25,7 @@
         "melodiesmml.ts",
         "melodies.ts",
         "players.ts",
+        "setup.ts",
         "splash.ts",
         "wordlists.ts"
     ],

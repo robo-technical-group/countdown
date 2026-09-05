@@ -6,6 +6,8 @@
  * Global variables
  */
 let g_gameMode: number = SpriteKind.None
+let g_gameType: GameType = null
+let g_scoreMode: ScoreType = null
 
 /**
  * Functions
@@ -14,6 +16,11 @@ function runIntro(): void {
     Intro.beginIntro()
     WordLists.startBuildingWordSets()
     g_gameMode = SpriteKind.Intro
+}
+
+function runSetup(): void {
+    Setup.beginSetup()
+    g_gameMode = SpriteKind.Setup
 }
 
 function runSplash(): void {
@@ -44,6 +51,14 @@ game.onUpdate(() => {
             if (!RtgSplash.isRunning()) {
                 g_gameMode = SpriteKind.None
                 RtgSplash.endSplash()
+                runSetup()
+            }
+            break
+        
+        case SpriteKind.Setup:
+            if (!Setup.isRunning() && !Melodies.playing()) {
+                g_gameMode = SpriteKind.None
+                Setup.endSetup()
             }
             break
     }
