@@ -4,7 +4,8 @@
         "device": "*",
         "Timers": "github:microsoft/arcade-timers#v1.1.0",
         "pxt-bloom-filters": "github:robo-technical-group/pxt-bloom-filters#v1.2.0",
-        "pxt-fast-ternary-string-set": "github:robo-technical-group/pxt-fast-ternary-string-set#v2.4.0"
+        "pxt-fast-ternary-string-set": "github:robo-technical-group/pxt-fast-ternary-string-set#v2.4.0",
+        "arcade-text": "github:microsoft/arcade-text#v1.3.0"
     },
     "files": [
         "main.blocks",
@@ -16,6 +17,7 @@
         "buttonhandlers.ts",
         "controllermp.ts",
         "enums.ts",
+        "intro.ts",
         "players.ts",
         "wordlists.ts"
     ],
