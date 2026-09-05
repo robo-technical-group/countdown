@@ -39,6 +39,10 @@ namespace Setup {
     }]
     const TITLE: string = "COUNTDOWN"
     const TITLE_TOP_STOP: number = 10
+    const TUTORIAL_MENU_ITEMS: string[] = [
+        'Tutorials Off',
+        'Tutorials On',
+    ]
 
     let descSprite: fancyText.TextSprite = null
     let gameTypeSprite: fancyText.TextSprite = null
@@ -46,6 +50,7 @@ namespace Setup {
     let running: boolean = false
     let scoreModeSprite: fancyText.TextSprite = null
     let title: fancyText.TextSprite
+    let tutorialModeSprite: fancyText.TextSprite = null
 
     export function beginSetup(): void {
         running = true
@@ -104,9 +109,27 @@ namespace Setup {
         scoreModeSprite.setKind(SpriteKind.Setup)
         menu.close()
         g_scoreMode = s
+        showTutorialMenu()
+    }
+    
+    function setTutorialMode(): void {
+        tutorialModeSprite = fancyText.create(
+            TUTORIAL_MENU_ITEMS[menu.selectedIndex],
+            null, Color.LightBlue, fancyText.bold_sans_7
+        )
+        tutorialModeSprite.x = 80
+        tutorialModeSprite.top = scoreModeSprite.bottom + 2
+        tutorialModeSprite.setKind(SpriteKind.Setup)
+        menu.close()
+        if (menu.selectedIndex == 0) {
+            Tutorial.disable()
+        } else {
+            Tutorial.enable()
+        }
         descSprite.setText(GET_READY)
         descSprite.setFont(fancyText.bold_sans_7)
-        descSprite.bottom = 100
+        descSprite.x = 80
+        descSprite.bottom = 110
         running = false
     }
 
@@ -150,6 +173,26 @@ namespace Setup {
         })
     }
 
+    function showTutorialMenu(): void {
+        let items: miniMenu.MenuItem[] = []
+        for (let s of TUTORIAL_MENU_ITEMS) {
+            let mi: miniMenu.MenuItem = new miniMenu.MenuItem(s, null)
+            items.push(mi)
+        }
+        menu = <miniMenu.MenuSprite>miniMenu.createMenuFromArray(items)
+        menu.setKind(SpriteKind.Setup)
+        menu.setStyleProperty(miniMenu.StyleKind.Selected, miniMenu.StyleProperty.Foreground, Color.Black)
+        menu.setStyleProperty(miniMenu.StyleKind.Selected, miniMenu.StyleProperty.Background, Color.LightBlue)
+        updateTutorialType()
+        menu.onSelectionChanged(() => {
+            updateTutorialType()
+        })
+        menu.onButtonPressed(miniMenu.Button.A, () => {
+            setTutorialMode()
+        })
+        menu.y += 10
+    }
+
     function updateDescSprite(): void {
         descSprite.bottom = 119
         descSprite.x = 80
@@ -169,5 +212,10 @@ namespace Setup {
         let s: ScoreType = SCORING_MODES[menu.selectedIndex]
         descSprite.setText(s.desc)
         updateDescSprite()
-   }
+    }
+
+    function updateTutorialType(): void {
+        descSprite.setText(TUTORIAL_MENU_ITEMS[menu.selectedIndex])
+        updateDescSprite()
+    }
 }

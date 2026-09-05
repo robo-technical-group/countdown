@@ -32,6 +32,8 @@ function runSplash(): void {
 }
 
 function start(): void {
+    color.clearFadeEffect()
+    color.setPalette(color.Arcade)
     Tutorial.firstTutorial()
 }
 
@@ -74,5 +76,4 @@ game.onUpdate(() => {
 /**
  * Main
  */
-//runIntro()
-start()
+runIntro()

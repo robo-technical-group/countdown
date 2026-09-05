@@ -5,7 +5,7 @@ namespace myImages {
         switch(helpers.stringTrim(name)) {
             case "image1":
             case "RTGLogo":return img`
-3ccccccccccccccccccccccccccccccccccccccccccccccb
+bccccccccccccccccccccccccccccccccccccccccccccccb
 cbccccccccccccccccccccccccccccccccccccccccccccbf
 ccbccccccccccccccccccccccccccccccccccccccccccbff
 cccbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbfff
@@ -351,6 +351,12 @@ bffffffffffffffffffffffffffffffffffffffffffffffb
         }
         return null;
     })
+
+}
+// Auto-generated code. Do not edit.
+
+// Auto-generated code. Do not edit.
+namespace myTiles {
 
 }
 // Auto-generated code. Do not edit.

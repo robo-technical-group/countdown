@@ -64,10 +64,6 @@ namespace Tutorial {
         let m: string = 
             (loc == DialogLayout.Full ? GAME_NAME.toUpperCase() + " TUTORIAL\n \n" : "") +
             TEXT[tutorial]
-        if (color.currentPalette() == color.Black) {
-            color.clearFadeEffect()
-            color.setPalette(color.Arcade)
-        }
         game.showLongText(m, loc)
         setState(tutorial, true)
     }
@@ -77,11 +73,13 @@ namespace Tutorial {
      */
 
     export function firstTutorial(): void {
+        /*
         if (!areEnabled()) {
             if (game.ask(ASK[0], ASK[1])) {
                 enable()
             }
         }
+        */
         show(Tutorial.First, DialogLayout.Full)
     }
 }
