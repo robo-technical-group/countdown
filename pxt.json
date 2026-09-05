@@ -16,6 +16,7 @@
         "buttonhandlers.ts",
         "controllermp.ts",
         "enums.ts",
+        "players.ts",
         "wordlists.ts"
     ],
     "testFiles": [

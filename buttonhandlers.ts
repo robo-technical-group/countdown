@@ -1,6 +1,11 @@
 namespace ButtonHandlers {
     export function A(player: number): void {
-
+        switch (g_gameMode) {
+            case SpriteKind.Intro:
+            case SpriteKind.Splash:
+            case SpriteKind.Setup:
+                Players.register(player)
+        }
     }
 
     export function B(player: number): void {
