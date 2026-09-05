@@ -1,7 +1,10 @@
 {
     "name": "countdown",
     "dependencies": {
-        "device": "*"
+        "device": "*",
+        "Timers": "github:microsoft/arcade-timers#v1.1.0",
+        "pxt-bloom-filters": "github:robo-technical-group/pxt-bloom-filters#v1.2.0",
+        "pxt-fast-ternary-string-set": "github:robo-technical-group/pxt-fast-ternary-string-set#v2.4.0"
     },
     "files": [
         "main.blocks",
@@ -10,7 +13,8 @@
         "assets.json",
         "images.g.jres",
         "images.g.ts",
-        "enums.ts"
+        "enums.ts",
+        "wordlists.ts"
     ],
     "testFiles": [
         "test.ts"
