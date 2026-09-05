@@ -1,5 +1,6 @@
 namespace SpriteKind {
     export const None = SpriteKind.create()
+    export const PauseMenu = SpriteKind.create()
     export const Intro = SpriteKind.create()
     export const Splash = SpriteKind.create()
     export const Setup = SpriteKind.create()

@@ -19,7 +19,9 @@ controller.player1.onButtonEvent(ControllerButton.Left, ControllerButtonEvent.Pr
 controller.player1.onButtonEvent(ControllerButton.Right, ControllerButtonEvent.Pressed, function () {
     ButtonHandlers.Right(1)
 })
-controller.menu.onEvent(ControllerButtonEvent.Pressed, () => {})
+controller.menu.onEvent(ControllerButtonEvent.Pressed, () => {
+    ButtonHandlers.Menu()
+})
 
 /**
  * Player 2

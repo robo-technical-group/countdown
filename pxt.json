@@ -25,6 +25,7 @@
         "intro.ts",
         "melodiesmml.ts",
         "melodies.ts",
+        "pausemenu.ts",
         "players.ts",
         "setup.ts",
         "splash.ts",

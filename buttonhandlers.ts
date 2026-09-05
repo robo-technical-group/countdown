@@ -19,8 +19,12 @@ namespace ButtonHandlers {
 
     }
 
-    export function Menu(player: number): void {
-
+    export function Menu(): void {
+        if (PauseMenu.menuVisible()) {
+            PauseMenu.release()
+        } else {
+            PauseMenu.show()
+        }
     }
 
     export function Right(player: number): void {
