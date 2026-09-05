@@ -13,6 +13,8 @@
         "assets.json",
         "images.g.jres",
         "images.g.ts",
+        "buttonhandlers.ts",
+        "controllermp.ts",
         "enums.ts",
         "wordlists.ts"
     ],
