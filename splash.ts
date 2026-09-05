@@ -41,6 +41,8 @@ namespace RtgSplash {
 
     export function endSplash(): void {
         running = false
+        color.clearFadeEffect()
+        color.setPalette(color.Black)
         sprites.destroyAllSpritesOfKind(SpriteKind.Splash)
         color.setPalette(color.Arcade)
     }

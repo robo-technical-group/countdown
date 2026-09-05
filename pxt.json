@@ -7,7 +7,8 @@
         "pxt-fast-ternary-string-set": "github:robo-technical-group/pxt-fast-ternary-string-set#v2.4.0",
         "arcade-text": "github:microsoft/arcade-text#v1.3.0",
         "Color Fading": "github:jwunderl/pxt-color#v0.2.3",
-        "arcade-fancy-text": "github:riknoll/arcade-fancy-text#v0.2.2"
+        "arcade-fancy-text": "github:riknoll/arcade-fancy-text#v0.2.2",
+        "arcade-mml": "github:riknoll/arcade-mml#v0.0.2"
     },
     "files": [
         "main.blocks",
@@ -20,6 +21,8 @@
         "controllermp.ts",
         "enums.ts",
         "intro.ts",
+        "melodiesmml.ts",
+        "melodies.ts",
         "players.ts",
         "splash.ts",
         "wordlists.ts"

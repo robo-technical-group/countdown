@@ -18,6 +18,9 @@ function runIntro(): void {
 
 function runSplash(): void {
     RtgSplash.beginSplash()
+    timer.after(2000, () => {
+        Melodies.playMainTheme()
+    })
     g_gameMode = SpriteKind.Splash
 }
 
