@@ -7,8 +7,16 @@ namespace Players {
         Color.BrightGreen, // Player 4
     ]
 
+    let registeredPlayers: number[] = []
     let registered: boolean[] = [false, false, false, false, false,]
 
+    export function numPlayers(): number {
+        if (registeredPlayers.length == 0) {
+            initRegisteredArray()
+        }
+        return registeredPlayers.length
+    }
+    
     export function register(player: number): void {
         if (registered[player]) {
             return
@@ -16,6 +24,9 @@ namespace Players {
 
         // music.play(music.melodyPlayable(music.jumpUp), music.PlaybackMode.InBackground)
         registered[player] = true
+        if (registeredPlayers.length > 0) {
+            registeredPlayers = []
+        }
         setScore(player, 0)
     }
 
@@ -36,6 +47,37 @@ namespace Players {
             case 4:
                 info.player4.changeScoreBy(delta)
                 break
+        }
+    }
+
+    export function getNextPlayer(currentPlayer: number): number {
+        if (registeredPlayers.length == 0) {
+            initRegisteredArray()
+        }
+        let i: number = registeredPlayers.indexOf(currentPlayer)
+        if (i < 0) {
+            return -1
+        }
+        i++
+        if (i < registeredPlayers.length) {
+            return registeredPlayers[i]
+        } else {
+            return registeredPlayers[0]
+        }
+    }
+
+    export function getRandomPlayer(): number {
+        if (registeredPlayers.length == 0) {
+            initRegisteredArray()
+        }
+        return registeredPlayers._pickRandom()
+    }
+
+    function initRegisteredArray(): void {
+        for (let i: number = 1; i < 5; i++) {
+            if (registeredPlayers[i]) {
+                registeredPlayers.push(i)
+            }
         }
     }
 

@@ -4,6 +4,17 @@ namespace SpriteKind {
     export const Intro = SpriteKind.create()
     export const Splash = SpriteKind.create()
     export const Setup = SpriteKind.create()
+    export const LettersBoard = SpriteKind.create()
+    export const LettersBoardTimer = SpriteKind.create()
+    export const LettersBoardDeclare = SpriteKind.create()
+    export const LettersBoardSolve = SpriteKind.create()
+    export const NumbersBoard = SpriteKind.create()
+    export const NumbersBoardTimer = SpriteKind.create
+    export const NumbersBoardDeclare = SpriteKind.create()
+    export const NumbersBoardSolve = SpriteKind.create()
+    export const ConundrumBoard = SpriteKind.create()
+    export const ConundrumBoardTimer = SpriteKind.create()
+    export const ConundrumBoardSolve = SpriteKind.create()
 }
 
 /**

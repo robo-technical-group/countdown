@@ -4,6 +4,17 @@ namespace Tutorial {
         First,
         Welcome,
         FirstRound,
+        FirstLettersA,
+        FirstLettersB,
+        FirstLettersC,
+        FirstLettersD,
+        FirstLettersE,
+        FirstLettersTimer,
+        FirstLettersSolve,
+        FirstNumbers,
+        FirstNumbersTimer,
+        FirstNumbersSolve,
+        FirstConundrum,
         Last // Used for counting; keep as last item.
     }
 
@@ -33,6 +44,33 @@ namespace Tutorial {
         // First round
         'Control for the first round is randomly assigned. ' +
         'After the first round, control is passed to each player in turn.',
+
+        // First Letters A
+        'Welcome to the letters round!\n \n' +
+        'You will create a puzzle board and then look for the longest word.',
+
+        // First Letters B
+        "At the top of the screen is the letter board. Right now, it's empty.\n \n" +
+        'The player in control will create the puzzle.',
+
+        // First Letters C
+        'Instructions to build the puzzle are at the bottom of the screen. ' +
+        'The player in control will create the puzzle one letter at a time. ' +
+        'Press A to add a consonant and B to add a vowel. ',
+
+        // First Letters D
+        'When adding a letter, the game rules require you to say ' +
+        'CONSONANT or VOWEL out loud./j',
+
+        // First Letters E
+        'Time to build your first letters puzzle!',
+
+        // First Letters Timer
+        'You now have 30 seconds to find the longest word that you can! ' +
+        'Words must be at least 3 letters long, spelled correctly, ' +
+        'and found in a U.S. dictionary. ' +
+        "Rude words have been removed from the game's dictionary. " +
+        'Good luck!',
     ]
 
     export function areEnabled(): boolean {
@@ -85,13 +123,6 @@ namespace Tutorial {
      */
 
     export function firstTutorial(): void {
-        /*
-        if (!areEnabled()) {
-            if (game.ask(ASK[0], ASK[1])) {
-                enable()
-            }
-        }
-        */
         show(Tutorial.First, DialogLayout.Full)
     }
 
@@ -101,5 +132,39 @@ namespace Tutorial {
 
     export function firstRound(): void {
         show(Tutorial.FirstRound, DialogLayout.Center)
+    }
+
+    export function lettersRound(): void {
+        show(Tutorial.FirstLettersA, DialogLayout.Full)
+        setState(Tutorial.FirstLettersA, false)
+        show(Tutorial.FirstLettersB, DialogLayout.Bottom)
+        show(Tutorial.FirstLettersC, DialogLayout.Top)
+        show(Tutorial.FirstLettersD, DialogLayout.Top)
+        show(Tutorial.FirstLettersE, DialogLayout.Center)
+        setState(Tutorial.FirstLettersA, true)
+    }
+
+    export function lettersRoundTimer(): void {
+        show(Tutorial.FirstLettersTimer, DialogLayout.Bottom)
+    }
+
+    export function lettersRoundSolve(): void {
+
+    }
+
+    export function numbersRound(): void {
+
+    }
+
+    export function numbersRoundTimer(): void {
+
+    }
+
+    export function numbersRoundSolve(): void {
+
+    }
+
+    export function conundrum(): void {
+        
     }
 }

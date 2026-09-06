@@ -5,12 +5,22 @@ namespace ButtonHandlers {
             case SpriteKind.Splash:
             case SpriteKind.Setup:
                 Players.register(player)
+                break
+            
+            case SpriteKind.LettersBoard:
+                addConsonant(player)
+                break
         }
     }
 
     export function B(player: number): void {
-
+        switch (g_gameMode) {
+            case SpriteKind.LettersBoard:
+                addVowel(player)
+                break
+        }
     }
+
     export function Down(player: number): void {
 
     }
