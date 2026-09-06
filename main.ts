@@ -5,6 +5,7 @@
 /**
  * Global variables
  */
+let g_currentRound: number = 0
 let g_gameMode: number = SpriteKind.None
 let g_gameType: GameType = null
 let g_scoreMode: ScoreType = null
@@ -35,6 +36,9 @@ function start(): void {
     color.clearFadeEffect()
     color.setPalette(color.Arcade)
     Tutorial.firstTutorial()
+    Tutorial.welcome()
+    Tutorial.firstRound()
+    g_currentRound = 0
 }
 
 /**
