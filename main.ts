@@ -62,11 +62,20 @@ function beginConundrum(): void {
 
 }
 
+function beginLettersDeclare(): void {
+    Tutorial.lettersRoundDeclare()
+    Countdown.initLetterDeclareBoard(Countdown.getLetterPuzzle())
+}
+
 function beginLettersRound(): void {
     Countdown.startLettersRound()
     Countdown.initLettersBoard()
     Countdown.showLetterInstructions(g_playerInControl, LETTER_ROUND_INSTRUCTIONS)
     Tutorial.lettersRound()
+}
+
+function beginLettersSolve(): void {
+
 }
 
 function beginNextRound(): void {
@@ -226,6 +235,20 @@ game.onUpdate(() => {
             if (info.countdown() == 0 && !Melodies.playing()) {
                 g_gameMode = SpriteKind.None
                 console.log("Solution: " + Countdown.getLetterSolution())
+                if (Players.numPlayers() == 1) {
+                } else {
+                    Countdown.clearLettersBoard()
+                    beginLettersDeclare()
+                    g_gameMode = SpriteKind.LettersBoardDeclare
+                }
+            }
+            break
+        
+        case SpriteKind.LettersBoardDeclare:
+            if (Countdown.allLettersDeclared()) {
+                g_gameMode = SpriteKind.None
+                beginLettersSolve()
+                g_gameMode = SpriteKind.LettersBoardSolve
             }
             break
     }
@@ -235,6 +258,7 @@ game.onUpdate(() => {
  * Main
  */
 // runIntro()
+Players.register(2)
 Players.register(1)
 g_gameType = {
         name: "Quick Game",

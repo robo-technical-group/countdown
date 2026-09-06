@@ -10,6 +10,10 @@ namespace ButtonHandlers {
             case SpriteKind.LettersBoard:
                 addConsonant(player)
                 break
+            
+            case SpriteKind.LettersBoardDeclare:
+                Countdown.finalizeLetterDeclaration(player)
+                break
         }
     }
 
@@ -22,11 +26,19 @@ namespace ButtonHandlers {
     }
 
     export function Down(player: number): void {
-
+        switch (g_gameMode) {
+            case SpriteKind.LettersBoardDeclare:
+                Countdown.changeLetterDeclaration(player, -1)
+                break
+        }
     }
 
     export function Left(player: number): void {
-
+        switch (g_gameMode) {
+            case SpriteKind.LettersBoardDeclare:
+                Countdown.changeLetterDeclaration(player, -1)
+                break
+        }
     }
 
     export function Menu(): void {
@@ -38,11 +50,18 @@ namespace ButtonHandlers {
     }
 
     export function Right(player: number): void {
-
+        switch (g_gameMode) {
+            case SpriteKind.LettersBoardDeclare:
+                Countdown.changeLetterDeclaration(player, 1)
+                break
+        }
     }
 
     export function Up(player: number): void {
-
+        switch (g_gameMode) {
+            case SpriteKind.LettersBoardDeclare:
+                Countdown.changeLetterDeclaration(player, 1)
+                break
+        }
     }
-
 }

@@ -10,9 +10,11 @@ namespace Tutorial {
         FirstLettersD,
         FirstLettersE,
         FirstLettersTimer,
+        FirstLettersDeclare,
         FirstLettersSolve,
         FirstNumbers,
         FirstNumbersTimer,
+        FirstNumbersDeclare,
         FirstNumbersSolve,
         FirstConundrum,
         Last // Used for counting; keep as last item.
@@ -71,6 +73,16 @@ namespace Tutorial {
         'and found in a U.S. dictionary. ' +
         "Rude words have been removed from the game's dictionary. " +
         'Good luck!',
+
+        // First Letters Declare
+        "How did you do? Let's find out!\n \n" +
+        'Now, you must declare your score. ' +
+        'Enter the length of the longest word that you found. ' +
+        'Use the arrows to change your response. ' +
+        'Press A to lock in your score. ' +
+        'When you lock your score, it will highlight ' +
+        'and you will not be able to change it.\n \n' +
+        'Lock in your scores now!',
     ]
 
     export function areEnabled(): boolean {
@@ -148,6 +160,10 @@ namespace Tutorial {
         show(Tutorial.FirstLettersTimer, DialogLayout.Bottom)
     }
 
+    export function lettersRoundDeclare(): void {
+        show(Tutorial.FirstLettersDeclare, DialogLayout.Full)
+    }
+
     export function lettersRoundSolve(): void {
 
     }
@@ -157,6 +173,10 @@ namespace Tutorial {
     }
 
     export function numbersRoundTimer(): void {
+
+    }
+
+    export function numbersRoundDeclare(): void {
 
     }
 

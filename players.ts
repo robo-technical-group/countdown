@@ -10,6 +10,20 @@ namespace Players {
     let registeredPlayers: number[] = []
     let registered: boolean[] = [false, false, false, false, false,]
 
+    export function accentColor(player: number): number {
+        if (player < 1 || player > 4) {
+            return -1
+        }
+        return ACCENT_COLORS[player]
+    }
+
+    export function isRegistered(player: number): boolean {
+        if (player < 1 || player > 4) {
+            return false
+        }
+        return registered[player]
+    }
+
     export function numPlayers(): number {
         if (registeredPlayers.length == 0) {
             initRegisteredArray()

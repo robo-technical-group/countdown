@@ -15913,31 +15913,42 @@ namespace WordLists {
     }
 
     export function buildWordSets(): void {
+        console.log("Building word lists synchronously.")
+        console.log("Starting 9-letter list.")
         currBuild = 9
         words9 = TernaryStringSet.fromB64StringSet(WORDS9)
         words9.forceUpper = true
+        console.log("Finished 9-letter list; starting 8-letter list.")
         currBuild = 8
         words8 = TernaryStringSet.fromB64StringSet(WORDS8)
         words8.forceUpper = true
+        console.log("Finished 8-letter list; starting 7-letter list.")
         currBuild = 7
         words7 = TernaryStringSet.fromB64StringSet(WORDS7)
         words7.forceUpper = true
+        console.log("Finished 7-letter list; starting 6-letter list.")
         currBuild = 6
         words6 = TernaryStringSet.fromB64StringSet(WORDS6)
         words6.forceUpper = true
+        console.log("Finished 6-letter list; starting 5-letter list.")
         currBuild = 5
         words5 = TernaryStringSet.fromB64StringSet(WORDS5)
         words5.forceUpper = true
+        console.log("Finished 5-letter list; starting 4-letter list.")
         currBuild = 4
         words4 = TernaryStringSet.fromB64StringSet(WORDS4)
         words4.forceUpper = true
+        console.log("Finished 4-letter list; starting 3-letter list.")
         currBuild = 3
         words3 = TernaryStringSet.fromB64StringSet(WORDS3)
         words3.forceUpper = true
+        console.log("Finished 3-letter list; starting 2-letter list.")
         currBuild = 2
         words2 = TernaryStringSet.fromB64StringSet(WORDS2)
         words2.forceUpper = true
+        console.log("Finished 2-letter list.")
         ready = true
+        console.log("Finished building all word lists.")
     }
 
     /**
@@ -15964,12 +15975,13 @@ namespace WordLists {
         if (ready) { return }
         if (building) { return }
         building = true
+        console.log("Starting asynchronous word list build.")
         timer.after(100, runNextBuild)
     }
 
     function runNextBuild(): void {
         building = true
-        // console.log(`Building word set ${currBuild}.`)
+        console.log(`Starting build of ${currBuild}-letter word list.`)
         switch (currBuild) {
             case 9:
                 words9 = TernaryStringSet.fromB64StringSet(WORDS9)
@@ -16011,9 +16023,11 @@ namespace WordLists {
                 words2.forceUpper = true
                 break
         }
+        console.log(`Finished build of ${currBuild}-letter word list.`)
         currBuild--
         if (currBuild < 2) {
             ready = true
+            console.log("Finished building all word lists.")
         }
         building = false
     }

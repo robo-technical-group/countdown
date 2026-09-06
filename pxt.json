@@ -25,6 +25,7 @@
         "enums.ts",
         "intro.ts",
         "letterboard.ts",
+        "letterdeclare.ts",
         "lettersround.ts",
         "melodiesmml.ts",
         "melodies.ts",
