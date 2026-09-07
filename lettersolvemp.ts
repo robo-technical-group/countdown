@@ -131,6 +131,7 @@ namespace Countdown {
         for (let t of letterSolveTiles[player]) {
             t.setFlag(SpriteFlag.Invisible, true)
         }
+        solnSprites[player].setFlag(SpriteFlag.Invisible, true)
     }
 
     function highlightDoneLetterMp(player: number, highlightOn: boolean): void {
