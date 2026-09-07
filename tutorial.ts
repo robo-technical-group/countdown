@@ -90,7 +90,9 @@ namespace Tutorial {
         "It's time to enter your solution!\n \n" +
         'Move the cursor with your D-pad. ' +
         'Use A to select and B to delete the last letter. ' +
-        'Move the cursor to DONE when finished.',
+        'Move the cursor to DONE when finished.\n \n' +
+        'As a reminder, your bid appears in parentheses. ' +
+        'Make sure your word length matches your bid!',
     ]
 
     export function areEnabled(): boolean {
