@@ -109,6 +109,7 @@ function beginNextRound(): void {
     }
 
     g_currentRound++
+    g_playerInControl = Players.getNextPlayer(g_playerInControl)
     if (g_currentRound < g_gameType.rounds.length) {
         beginRound()
     } else {
@@ -304,7 +305,9 @@ Tutorial.enable()
 beginRound()
 */
 for (let i: number = 1; i < 5; i++) {
-    Players.register(i)
+    if (i != 3) {
+        Players.register(i)
+    }
 }
 Countdown.lettersDeclareTest()
 Countdown.letterSolveMpTest()

@@ -41,7 +41,7 @@ namespace Countdown {
         letterScoreSolutionSprite.setFlag(SpriteFlag.Invisible, true)
         letterScoreSolutionSprite.setKind(SpriteKind.LettersBoardScore)
 
-        top += 15
+        top += 12
         let puzzleSprite: TextSprite = textsprite.create(
             Countdown.getLetterPuzzle(), Color.Blue, Color.White
         )

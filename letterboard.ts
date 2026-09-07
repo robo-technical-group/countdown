@@ -46,7 +46,7 @@ namespace Countdown {
     export function showLetterInstructions(player: number, instructions: string): void {
         clearLettersInstructions()
         let x: number = 80
-        let bottom: number = 115
+        let bottom: number = 110
         let f1: fancyText.TextSprite = fancyText.create(instructions, null,
             Color.White, fancyText.bold_sans_7)
         f1.setKind(SpriteKind.LettersBoard)

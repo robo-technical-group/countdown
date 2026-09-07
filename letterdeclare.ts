@@ -71,7 +71,7 @@ namespace Countdown {
 
     function drawWordLengthInstructions(): void {
         let x: number = 80
-        let y: number = 110
+        let y: number = 105
         let ts: TextSprite = textsprite.create(
             DIRECTIONS[0], 0, 1
         )
