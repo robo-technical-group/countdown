@@ -96,6 +96,7 @@ function beginLettersSolve(): void {
 }
 
 function beginNextRound(): void {
+    g_gameMode = SpriteKind.None
     switch (g_gameType.rounds[g_currentRound]) {
         case 'C':
             break
@@ -290,7 +291,7 @@ game.onUpdate(() => {
 /**
  * Main
  */
-// runIntro()
+runIntro()
 /*
 Players.register(2)
 Players.register(1)
@@ -304,6 +305,7 @@ g_playerInControl = 2
 Tutorial.enable()
 beginRound()
 */
+/*
 for (let i: number = 1; i < 5; i++) {
     if (i != 3) {
         Players.register(i)
@@ -334,3 +336,4 @@ for (let v: number = 0; v < 4; v++) {
 Countdown.findLetterPuzzleSolution()
 beginLettersScore()
 g_gameMode = SpriteKind.LettersBoardScore
+*/

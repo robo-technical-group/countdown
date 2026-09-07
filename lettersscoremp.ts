@@ -22,6 +22,7 @@ namespace Countdown {
     export function beginLettersScoreMp(): void {
         clearLettersScoreMp()
         letterHighScore = 0
+        letterScoreCurrentColumn = 0
         letterScoreCurrentPlayer = 1
         letterScoreBids = [false, false, false, false, false,]
         letterScoreValid = [false, false, false, false, false,]

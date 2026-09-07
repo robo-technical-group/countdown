@@ -8,6 +8,8 @@ namespace Countdown {
 
     export function clearLettersBoard(): void {
         sprites.destroyAllSpritesOfKind(SpriteKind.LettersBoard)
+        letterTiles = []
+        lInstructionSprites = []
     }
 
     export function clearLettersInstructions(): void {

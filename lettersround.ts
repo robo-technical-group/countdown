@@ -1,5 +1,6 @@
 /**
  * Methods for running a letters round.
+ * Requires arrays extension (see array.ts).
  */
 namespace Countdown {
     interface LetterFreqency {
