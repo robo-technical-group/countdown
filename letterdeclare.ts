@@ -48,7 +48,11 @@ namespace Countdown {
     }
 
     export function changeLetterDeclaration(player: number, delta: number): void {
-        if (player < 1 || player > 4 || wordLengthFinalized[player]) {
+        if (
+            player < 1 || player > 4 ||
+            !Players.isRegistered(player) ||
+            wordLengthFinalized[player]
+        ) {
             return
         }
         wordLengths[player] += delta
@@ -73,12 +77,14 @@ namespace Countdown {
         )
         ts.setMaxFontHeight(5)
         ts.setPosition(x, y)
+        ts.setKind(SpriteKind.LettersBoardDeclare)
         y += 7
         ts = textsprite.create(
             DIRECTIONS[1], 0, 1
         )
         ts.setMaxFontHeight(5)
         ts.setPosition(x, y)
+        ts.setKind(SpriteKind.LettersBoardDeclare)
     }
 
     function drawWordLengthPanel(left: number, top: number, player: number): void {
@@ -107,6 +113,13 @@ namespace Countdown {
         }
         wordLengthFinalized[player] = true
         updateWordLengthSprite(player)
+    }
+
+    export function getLetterDeclaration(player: number): number {
+        if (player < 1 || player > 4) {
+            return -1
+        }
+        return wordLengths[player]
     }
 
     function updateWordLengthSprite(player: number): void {

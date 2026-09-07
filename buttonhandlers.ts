@@ -14,6 +14,10 @@ namespace ButtonHandlers {
             case SpriteKind.LettersBoardDeclare:
                 Countdown.finalizeLetterDeclaration(player)
                 break
+            
+            case SpriteKind.LettersBoardSolve:
+                Countdown.selectLetterCursorMp(player)
+                break
         }
     }
 
@@ -21,6 +25,10 @@ namespace ButtonHandlers {
         switch (g_gameMode) {
             case SpriteKind.LettersBoard:
                 addVowel(player)
+                break
+            
+            case SpriteKind.LettersBoardSolve:
+                Countdown.deleteLetterMp(player)
                 break
         }
     }
@@ -30,6 +38,10 @@ namespace ButtonHandlers {
             case SpriteKind.LettersBoardDeclare:
                 Countdown.changeLetterDeclaration(player, -1)
                 break
+            
+            case SpriteKind.LettersBoardSolve:
+                Countdown.moveLetterCursorMp(player, 0, 1)
+                break
         }
     }
 
@@ -37,6 +49,10 @@ namespace ButtonHandlers {
         switch (g_gameMode) {
             case SpriteKind.LettersBoardDeclare:
                 Countdown.changeLetterDeclaration(player, -1)
+                break
+            
+            case SpriteKind.LettersBoardSolve:
+                Countdown.moveLetterCursorMp(player, -1, 0)
                 break
         }
     }
@@ -54,6 +70,10 @@ namespace ButtonHandlers {
             case SpriteKind.LettersBoardDeclare:
                 Countdown.changeLetterDeclaration(player, 1)
                 break
+            
+            case SpriteKind.LettersBoardSolve:
+                Countdown.moveLetterCursorMp(player, 1, 0)
+                break
         }
     }
 
@@ -61,6 +81,10 @@ namespace ButtonHandlers {
         switch (g_gameMode) {
             case SpriteKind.LettersBoardDeclare:
                 Countdown.changeLetterDeclaration(player, 1)
+                break
+            
+            case SpriteKind.LettersBoardSolve:
+                Countdown.moveLetterCursorMp(player, 0, 1)
                 break
         }
     }

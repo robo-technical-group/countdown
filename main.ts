@@ -75,7 +75,13 @@ function beginLettersRound(): void {
 }
 
 function beginLettersSolve(): void {
-
+    if (Players.numPlayers() > 1) {
+        Countdown.clearLetterDeclareBoard()
+        Countdown.beginLetterSolveMp()
+        Tutorial.lettersRoundSolve()
+    } else {
+        // Single player will use letters board in solve mode.
+    }
 }
 
 function beginNextRound(): void {
@@ -84,7 +90,7 @@ function beginNextRound(): void {
             break
         
         case 'L':
-            Countdown.clearLettersBoard()
+            // Countdown.clearLettersBoard()
             break
         
         case 'N':
@@ -249,6 +255,13 @@ game.onUpdate(() => {
                 g_gameMode = SpriteKind.None
                 beginLettersSolve()
                 g_gameMode = SpriteKind.LettersBoardSolve
+            }
+            break
+        
+        case SpriteKind.LettersBoardSolve:
+            if (Countdown.allLettersSolved()) {
+                g_gameMode = SpriteKind.None
+                console.log("All letters solutions finalized.")
             }
             break
     }

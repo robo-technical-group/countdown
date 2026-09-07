@@ -12,10 +12,12 @@ namespace Tutorial {
         FirstLettersTimer,
         FirstLettersDeclare,
         FirstLettersSolve,
+        FirstLettersScore,
         FirstNumbers,
         FirstNumbersTimer,
         FirstNumbersDeclare,
         FirstNumbersSolve,
+        FirstNumbersScore,
         FirstConundrum,
         Last // Used for counting; keep as last item.
     }
@@ -28,7 +30,7 @@ namespace Tutorial {
     const INTRO: string = 'Welcome to ' + GAME_NAME + '!'
     const PERSIST_KEY_PREFIX: string = 'TUTORIAL_PERSIST_'
     const TEXT: string[] = [
-        // Enabled: No text.
+        // Enabled: Player 1 reminder.
         'Player 1: Remember that you are in control of the tutorials.\n \n' +
         'Player 1, press A to continue.',
 
@@ -76,13 +78,19 @@ namespace Tutorial {
 
         // First Letters Declare
         "How did you do? Let's find out!\n \n" +
-        'Now, you must declare your score. ' +
+        'Now, you must declare your bid. ' +
         'Enter the length of the longest word that you found. ' +
         'Use the arrows to change your response. ' +
-        'Press A to lock in your score. ' +
-        'When you lock your score, it will highlight ' +
+        'Press A to lock in your bid. ' +
+        'When you lock your bid, it will highlight ' +
         'and you will not be able to change it.\n \n' +
-        'Lock in your scores now!',
+        'Lock in your bids now!',
+
+        // First Letters Solve
+        "It's time to enter your solution!\n \n" +
+        'Move the cursor with your D-pad. ' +
+        'Use A to select and B to delete the last letter. ' +
+        'Move the cursor to DONE when finished.',
     ]
 
     export function areEnabled(): boolean {
@@ -165,6 +173,10 @@ namespace Tutorial {
     }
 
     export function lettersRoundSolve(): void {
+        show (Tutorial.FirstLettersSolve, DialogLayout.Bottom)
+    }
+
+    export function lettersRoundScore(): void {
 
     }
 
@@ -181,6 +193,10 @@ namespace Tutorial {
     }
 
     export function numbersRoundSolve(): void {
+
+    }
+
+    export function numbersRoundScore(): void {
 
     }
 

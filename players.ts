@@ -89,7 +89,7 @@ namespace Players {
 
     function initRegisteredArray(): void {
         for (let i: number = 1; i < 5; i++) {
-            if (registeredPlayers[i]) {
+            if (registered[i]) {
                 registeredPlayers.push(i)
             }
         }
