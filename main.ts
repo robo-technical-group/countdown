@@ -9,6 +9,7 @@ const TIMER_INSTRUCTIONS: string[] = [
     "start",
     "NOW."
 ]
+const UPDATE_INTERVAL: number = 750
 
 /**
  * Global variables
@@ -16,6 +17,7 @@ const TIMER_INSTRUCTIONS: string[] = [
 let g_currentRound: number = 0
 let g_gameMode: number = SpriteKind.None
 let g_gameType: GameType = null
+let g_nextUpdate: number = 0
 let g_playerInControl: number = 0
 let g_scoreMode: ScoreType = null
 let g_timerInstructions: fancyText.TextSprite[] = []
@@ -59,7 +61,7 @@ function begin(): void {
 }
 
 function beginConundrum(): void {
-
+    game.splash("STOP", "Conundrum not ready.")
 }
 
 function beginLettersDeclare(): void {
@@ -72,6 +74,15 @@ function beginLettersRound(): void {
     Countdown.initLettersBoard()
     Countdown.showLetterInstructions(g_playerInControl, LETTER_ROUND_INSTRUCTIONS)
     Tutorial.lettersRound()
+}
+
+function beginLettersScore(): void {
+    Countdown.clearLetterSolveMpBoard()
+    Countdown.beginLettersScoreMp()
+    Tutorial.lettersRoundScore()
+    if (g_scoreMode.name[0] == "C") {
+        Tutorial.competitive()
+    }
 }
 
 function beginLettersSolve(): void {
@@ -90,7 +101,7 @@ function beginNextRound(): void {
             break
         
         case 'L':
-            // Countdown.clearLettersBoard()
+            Countdown.clearLettersScoreMp()
             break
         
         case 'N':
@@ -106,7 +117,7 @@ function beginNextRound(): void {
 }
 
 function beginNumbersRound(): void {
-
+    game.splash("STOP","Numbers round not ready.")
 }
 
 function beginRound(): void {
@@ -261,7 +272,15 @@ game.onUpdate(() => {
         case SpriteKind.LettersBoardSolve:
             if (Countdown.allLettersSolved()) {
                 g_gameMode = SpriteKind.None
-                console.log("All letters solutions finalized.")
+                beginLettersScore()
+                g_gameMode = SpriteKind.LettersBoardScore
+            }
+            break
+        
+        case SpriteKind.LettersBoardScore:
+            if (!Countdown.updateLetterScoreDone() && game.runtime() > g_nextUpdate) {
+                g_nextUpdate = game.runtime() + UPDATE_INTERVAL
+                Countdown.updateLettersScore()
             }
             break
     }
@@ -271,6 +290,7 @@ game.onUpdate(() => {
  * Main
  */
 // runIntro()
+/*
 Players.register(2)
 Players.register(1)
 g_gameType = {
@@ -282,3 +302,32 @@ g_currentRound = 0
 g_playerInControl = 2
 Tutorial.enable()
 beginRound()
+*/
+for (let i: number = 1; i < 5; i++) {
+    Players.register(i)
+}
+Countdown.lettersDeclareTest()
+Countdown.letterSolveMpTest()
+g_gameType = {
+    name: "Quick Game",
+    rounds: "LLNC",
+    time: 10
+}
+g_scoreMode = {
+    name: "Competitive",
+    desc: "Whatever"
+}
+g_currentRound = 0
+g_playerInControl = 2
+Tutorial.enable()
+g_gameMode = SpriteKind.None
+Countdown.startLettersRound()
+for (let c: number = 0; c < 5; c++) {
+    Countdown.addConsonant()
+}
+for (let v: number = 0; v < 4; v++) {
+    Countdown.addVowel()
+}
+Countdown.findLetterPuzzleSolution()
+beginLettersScore()
+g_gameMode = SpriteKind.LettersBoardScore

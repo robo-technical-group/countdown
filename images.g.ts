@@ -54,6 +54,30 @@ ccbffffffffffffffffffffffffffffffffffffffffffbff
 cbffffffffffffffffffffffffffffffffffffffffffffbf
 bffffffffffffffffffffffffffffffffffffffffffffffb
 `;
+            case "image2":
+            case "greenCheck":return img`
+7 7 7 7 7 7 7 7 7 
+7 7 7 7 7 7 7 f 7 
+7 7 7 7 7 7 7 f 7 
+7 7 7 7 7 7 f 7 7 
+7 7 7 7 7 f 7 7 7 
+7 f 7 7 f 7 7 7 7 
+7 f 7 f 7 7 7 7 7 
+7 7 f 7 7 7 7 7 7 
+7 7 7 7 7 7 7 7 7 
+`;
+            case "image3":
+            case "redX":return img`
+2 2 2 2 2 2 2 2 2 
+2 f 2 2 2 2 2 f 2 
+2 2 f 2 2 2 f 2 2 
+2 2 2 f 2 f 2 2 2 
+2 2 2 2 f 2 2 2 2 
+2 2 2 f 2 f 2 2 2 
+2 2 f 2 2 2 f 2 2 
+2 f 2 2 2 2 2 f 2 
+2 2 2 2 2 2 2 2 2 
+`;
         }
         return null;
     })

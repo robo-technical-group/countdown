@@ -122,6 +122,13 @@ namespace Countdown {
         return wordLengths[player]
     }
 
+    export function getPlayerBid(player: number): number {
+        if (player < 1 || player > 4) {
+            return -1
+        }
+        return wordLengths[player]
+    }
+
     function updateWordLengthSprite(player: number): void {
         let accentColor: number = Players.accentColor(player)
         let s: TextSprite = wordLengthSprites[player]
@@ -134,5 +141,10 @@ namespace Countdown {
             s.bg = Color.Transparent
         }
         s.update()
+    }
+
+    export function lettersDeclareTest(): void {
+        wordLengths = [0, 5, 6, 7, 9,]
+        wordLengthFinalized = [false, true, true, true, true,]
     }
 }

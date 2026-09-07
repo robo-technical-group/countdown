@@ -13,6 +13,7 @@ namespace Tutorial {
         FirstLettersDeclare,
         FirstLettersSolve,
         FirstLettersScore,
+        FirstCompetitive,
         FirstNumbers,
         FirstNumbersTimer,
         FirstNumbersDeclare,
@@ -64,7 +65,8 @@ namespace Tutorial {
 
         // First Letters D
         'When adding a letter, the game rules require you to say ' +
-        'CONSONANT or VOWEL out loud./j',
+        'CONSONANT or VOWEL out loud. Also, since there is no host, ' +
+        'you must say the letter out loud when it is revealed./j',
 
         // First Letters E
         'Time to build your first letters puzzle!',
@@ -93,6 +95,16 @@ namespace Tutorial {
         'Move the cursor to DONE when finished.\n \n' +
         'As a reminder, your bid appears in parentheses. ' +
         'Make sure your word length matches your bid!',
+
+        // First Letters Score
+        "Now, let's score your solutions! " +
+        'If your solution is valid, you earn one point ' +
+        'per letter in your word. If you made a 9-letter ' +
+        'word, then you get an extra 10 points!',
+
+        // First Competitive
+        'Because you are playing in competitive mode, ' +
+        'only the highest score(s) count each round!',
     ]
 
     export function areEnabled(): boolean {
@@ -175,11 +187,15 @@ namespace Tutorial {
     }
 
     export function lettersRoundSolve(): void {
-        show (Tutorial.FirstLettersSolve, DialogLayout.Bottom)
+        show(Tutorial.FirstLettersSolve, DialogLayout.Bottom)
     }
 
     export function lettersRoundScore(): void {
+        show(Tutorial.FirstLettersScore, DialogLayout.Full)
+    }
 
+    export function competitive(): void {
+        show(Tutorial.FirstCompetitive, DialogLayout.Full)
     }
 
     export function numbersRound(): void {

@@ -18,6 +18,11 @@ namespace ButtonHandlers {
             case SpriteKind.LettersBoardSolve:
                 Countdown.selectLetterCursorMp(player)
                 break
+            
+            case SpriteKind.LettersBoardScore:
+                if (Countdown.updateLetterScoreDone() && player == 1) {
+                    beginNextRound()
+                }
         }
     }
 

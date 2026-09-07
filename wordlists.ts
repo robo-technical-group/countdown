@@ -16057,4 +16057,15 @@ namespace WordLists {
         ]
     }
 
+    export function isWordValid(word: string): boolean {
+        const wordLists: TernaryStringSet[] = getWordLists()
+        if (wordLists.length <= word.length) {
+            return false
+        }
+        if (wordLists[word.length] == null) {
+            return false
+        }
+        return wordLists[word.length].has(word)
+    }
+
 }

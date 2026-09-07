@@ -26,6 +26,7 @@
         "intro.ts",
         "letterboard.ts",
         "letterdeclare.ts",
+        "lettersscoremp.ts",
         "lettersolvemp.ts",
         "lettersround.ts",
         "melodiesmml.ts",

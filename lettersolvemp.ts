@@ -77,6 +77,7 @@ namespace Countdown {
         let i: TextSprite = textsprite.create(LETTER_SOLVE_MP_INSTRUCTIONS, 0, Color.White)
         i.bottom = 119
         i.x = 80
+        i.setKind(SpriteKind.LettersBoardSolve)
     }
 
     function drawLetterSolvePanel(left: number, top: number, player: number): void {
@@ -132,6 +133,13 @@ namespace Countdown {
             t.setFlag(SpriteFlag.Invisible, true)
         }
         solnSprites[player].setFlag(SpriteFlag.Invisible, true)
+    }
+
+    export function getPlayerLetterSolution(player: number): string {
+        if (player < 1 || player > 4) {
+            return ""
+        }
+        return letterSolutions[player]
     }
 
     function highlightDoneLetterMp(player: number, highlightOn: boolean): void {
@@ -203,4 +211,9 @@ namespace Countdown {
         s.x = 40 + 80 * ((player + 1) % 2)
         s.update()
     }
+
+    export function letterSolveMpTest(): void {
+        letterFinalized = [false, true, true, true, true,]
+        letterSolutions = ["", "CABIN", "WRAETH", "SKATING", "SPORTING",]
+   }
 }
