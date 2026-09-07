@@ -21,6 +21,32 @@ namespace Countdown {
         return true
     }
 
+    export function beginLettersDeclare(puzzle: string): void {
+        clearLetterDeclareBoard()
+        wordLengths = [0, 0, 0, 0, 0,]
+        wordLengthFinalized = [false, false, false, false, false,]
+        wordLengthSprites = [null, null, null, null, null,]
+        let p: TextSprite = textsprite.create(puzzle, Color.Blue, Color.White)
+        p.setKind(SpriteKind.LettersBoardDeclare)
+        p.setBorder(1, Color.Aqua, 1)
+        p.setMaxFontHeight(10)
+        p.x = 80
+        p.top = 0
+        if (Players.isRegistered(1)) {
+            drawWordLengthPanel(0, 0, 1)
+        }
+        if (Players.isRegistered(2)) {
+            drawWordLengthPanel(80, 0, 2)
+        }
+        if (Players.isRegistered(3)) {
+            drawWordLengthPanel(0, 60, 3)
+        }
+        if (Players.isRegistered(4)) {
+            drawWordLengthPanel(80, 60, 4)
+        }
+        drawWordLengthInstructions()
+    }
+
     export function changeLetterDeclaration(player: number, delta: number): void {
         if (player < 1 || player > 4 || wordLengthFinalized[player]) {
             return
@@ -37,9 +63,6 @@ namespace Countdown {
 
     export function clearLetterDeclareBoard(): void {
         sprites.destroyAllSpritesOfKind(SpriteKind.LettersBoardDeclare)
-        wordLengths = [0, 0, 0, 0, 0,]
-        wordLengthFinalized = [false, false, false, false, false,]
-        wordLengthSprites = [null, null, null, null, null,]
     }
 
     function drawWordLengthInstructions(): void {
@@ -84,29 +107,6 @@ namespace Countdown {
         }
         wordLengthFinalized[player] = true
         updateWordLengthSprite(player)
-    }
-
-    export function initLetterDeclareBoard(puzzle: string): void {
-        clearLetterDeclareBoard()
-        let p: TextSprite = textsprite.create(puzzle, Color.Blue, Color.White)
-        p.setKind(SpriteKind.LettersBoardDeclare)
-        p.setBorder(1, Color.Aqua, 1)
-        p.setMaxFontHeight(10)
-        p.x = 80
-        p.top = 0
-        if (Players.isRegistered(1)) {
-            drawWordLengthPanel(0, 0, 1)
-        }
-        if (Players.isRegistered(2)) {
-            drawWordLengthPanel(80, 0, 2)
-        }
-        if (Players.isRegistered(3)) {
-            drawWordLengthPanel(0, 60, 3)
-        }
-        if (Players.isRegistered(4)) {
-            drawWordLengthPanel(80, 60, 4)
-        }
-        drawWordLengthInstructions()
     }
 
     function updateWordLengthSprite(player: number): void {

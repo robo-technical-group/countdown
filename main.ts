@@ -64,7 +64,7 @@ function beginConundrum(): void {
 
 function beginLettersDeclare(): void {
     Tutorial.lettersRoundDeclare()
-    Countdown.initLetterDeclareBoard(Countdown.getLetterPuzzle())
+    Countdown.beginLettersDeclare(Countdown.getLetterPuzzle())
 }
 
 function beginLettersRound(): void {
@@ -266,6 +266,6 @@ g_gameType = {
         time: 10
 }
 g_currentRound = 0
-g_playerInControl = 1
+g_playerInControl = 2
 Tutorial.enable()
 beginRound()
