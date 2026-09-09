@@ -9,6 +9,9 @@ const TIMER_INSTRUCTIONS: string[] = [
     "start",
     "NOW."
 ]
+const ROUND_NAME_CONUNDRUM: string = "Conundrum"
+const ROUND_NAME_LETTERS: string = "Letters round"
+const ROUND_NAME_NUMBERS: string = "Numbers round"
 const UPDATE_INTERVAL: number = 750
 
 /**
@@ -124,20 +127,37 @@ function beginNumbersRound(): void {
 
 function beginRound(): void {
     g_gameMode = SpriteKind.None
+    let nextRound: () => void = null
+    let roundType: string = ""
+    
     switch (g_gameType.rounds[g_currentRound]) {
         case 'C':
-            beginConundrum()
+            nextRound = () => {
+                beginConundrum()
+            }
+            roundType = ROUND_NAME_CONUNDRUM
             break
         
         case 'L':
-            beginLettersRound()
-            g_gameMode = SpriteKind.LettersBoard
+            nextRound = () => {
+                beginLettersRound()
+                g_gameMode = SpriteKind.LettersBoard
+            }
+            roundType = ROUND_NAME_LETTERS
             break
         
         case 'N':
-            beginNumbersRound()
+            nextRound = () => {
+                beginNumbersRound()
+            }
+            roundType = ROUND_NAME_NUMBERS
             break
     }
+
+    timer.after(0, () => {
+        RoundSplash.beginSplash(g_currentRound + 1, roundType)
+    })
+    timer.after(5000, nextRound)
 }
 
 function endGame(): void {

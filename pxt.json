@@ -33,6 +33,7 @@
         "melodies.ts",
         "pausemenu.ts",
         "players.ts",
+        "roundsplash.ts",
         "setup.ts",
         "splash.ts",
         "tutorial.ts",
