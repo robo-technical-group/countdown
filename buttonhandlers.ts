@@ -23,6 +23,11 @@ namespace ButtonHandlers {
                 if (Countdown.updateLetterScoreDone() && player == 1) {
                     beginNextRound()
                 }
+                break
+            
+            case SpriteKind.NumbersBoard:
+                addSmall(player)
+                break
         }
     }
 
@@ -34,6 +39,10 @@ namespace ButtonHandlers {
             
             case SpriteKind.LettersBoardSolve:
                 Countdown.deleteLetterMp(player)
+                break
+                
+            case SpriteKind.NumbersBoard:
+                addBig(player)
                 break
         }
     }

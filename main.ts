@@ -1,22 +1,28 @@
 /**
  * Constants
  */
-const LETTER_ROUND_INSTRUCTIONS: string = "A = Consonant, B = Vowel"
-const LETTER_ROUND_NO_MORE_CONSONANTS: string = "\nSelect at least 3 vowels."
-const LETTER_ROUND_NO_MORE_VOWELS: string = "\nSelect at least 4 consonants."
+const LETTERS_ROUND_INSTRUCTIONS: string = "A = Consonant, B = Vowel"
+const LETTERS_ROUND_NO_MORE_CONSONANTS: string = "\nSelect at least 3 vowels."
+const LETTERS_ROUND_NO_MORE_VOWELS: string = "\nSelect at least 4 consonants."
+const NUMBERS_ROUND_INSTRUCTIONS: string = "A = Small, B = Big"
+const NUMBERS_ROUND_NO_MORE_BIGS: string = "\nThere are only 4 big numbers."
+const RANDOMIZATION_COUNT: number = 20
+const RANDOMIZATION_DELAY: number = 100
+const ROUND_NAME_CONUNDRUM: string = "Conundrum"
+const ROUND_NAME_LETTERS: string = "Letters round"
+const ROUND_NAME_NUMBERS: string = "Numbers round"
+const TARGET_REVEAL_PAUSE: number = 500
 const TIMER_INSTRUCTIONS: string[] = [
     "Your 30 seconds",
     "start",
     "NOW."
 ]
-const ROUND_NAME_CONUNDRUM: string = "Conundrum"
-const ROUND_NAME_LETTERS: string = "Letters round"
-const ROUND_NAME_NUMBERS: string = "Numbers round"
 const UPDATE_INTERVAL: number = 750
 
 /**
  * Global variables
  */
+let g_currentRandomization: number = 0
 let g_currentRound: number = 0
 let g_gameMode: number = SpriteKind.None
 let g_gameType: GameType = null
@@ -28,16 +34,36 @@ let g_timerInstructions: fancyText.TextSprite[] = []
 /**
  * Functions
  */
+function addBig(player: number): void {
+    if (player != g_playerInControl || Countdown.getCurrNumber() == 6) {
+        return
+    }
+    if (Countdown.getNumBigs() == 4) {
+        Countdown.showNumberInstructions(g_playerInControl, NUMBERS_ROUND_INSTRUCTIONS + NUMBERS_ROUND_NO_MORE_BIGS)
+        return
+    }
+    Countdown.addBig()
+    showNumbersPuzzle()
+}
+
 function addConsonant(player: number): void {
     if (player != g_playerInControl || Countdown.getCurrLetter() == 9) {
         return
     }
     if (Countdown.getNumConsonants() == 6) {
-        Countdown.showLetterInstructions(g_playerInControl, LETTER_ROUND_INSTRUCTIONS + LETTER_ROUND_NO_MORE_CONSONANTS)
+        Countdown.showLetterInstructions(g_playerInControl, LETTERS_ROUND_INSTRUCTIONS + LETTERS_ROUND_NO_MORE_CONSONANTS)
         return
     }
     Countdown.addConsonant()
     showLettersPuzzle()
+}
+
+function addSmall(player: number): void {
+    if (player != g_playerInControl || Countdown.getCurrNumber() == 6) {
+        return
+    }
+    Countdown.addSmall()
+    showNumbersPuzzle()
 }
 
 function addVowel(player: number): void {
@@ -45,7 +71,7 @@ function addVowel(player: number): void {
         return
     }
     if (Countdown.getNumVowels() == 5) {
-        Countdown.showLetterInstructions(g_playerInControl, LETTER_ROUND_INSTRUCTIONS + LETTER_ROUND_NO_MORE_VOWELS)
+        Countdown.showLetterInstructions(g_playerInControl, LETTERS_ROUND_INSTRUCTIONS + LETTERS_ROUND_NO_MORE_VOWELS)
         return
     }
     Countdown.addVowel()
@@ -75,7 +101,7 @@ function beginLettersDeclare(): void {
 function beginLettersRound(): void {
     Countdown.startLettersRound()
     Countdown.initLettersBoard()
-    Countdown.showLetterInstructions(g_playerInControl, LETTER_ROUND_INSTRUCTIONS)
+    Countdown.showLetterInstructions(g_playerInControl, LETTERS_ROUND_INSTRUCTIONS)
     Tutorial.lettersRound()
 }
 
@@ -122,7 +148,11 @@ function beginNextRound(): void {
 }
 
 function beginNumbersRound(): void {
-    game.splash("STOP","Numbers round not ready.")
+    // game.splash("STOP","Numbers round not ready.")
+    Countdown.startNumbersRound()
+    Countdown.initNumbersBoard()
+    Countdown.showNumberInstructions(g_playerInControl, NUMBERS_ROUND_INSTRUCTIONS)
+    Tutorial.numbersRound()
 }
 
 function beginRound(): void {
@@ -149,6 +179,7 @@ function beginRound(): void {
         case 'N':
             nextRound = () => {
                 beginNumbersRound()
+                g_gameMode = SpriteKind.NumbersBoard
             }
             roundType = ROUND_NAME_NUMBERS
             break
@@ -199,6 +230,15 @@ function showLettersPuzzle(): void {
     }
 }
 
+function showNumbersPuzzle(): void {
+    Countdown.showNumbersPuzzle(Countdown.getNumberPuzzle())
+    if (Countdown.getCurrNumber() == 6) {
+        g_gameMode = SpriteKind.None
+        Countdown.clearNumbersInstructions()
+        startTargetRandomization()
+    }
+}
+
 function showTimerInstruction(s: string, top: number): void {
     let f: fancyText.TextSprite = fancyText.create(
         s, null, Color.White, fancyText.bold_sans_7
@@ -208,8 +248,13 @@ function showTimerInstruction(s: string, top: number): void {
     g_timerInstructions.push(f)
 }
 
-function startTimer(): number {
-    let t: number = 0
+function startTargetRandomization(): void {
+    g_currentRandomization = 0
+    timer.after(500, updateTargetRandomization)
+}
+
+function startTimer(initPause: number = 0): number {
+    let t: number = initPause
     timer.after(t, () => {
         showTimerInstruction(TIMER_INSTRUCTIONS[0], 60)
     })
@@ -231,6 +276,23 @@ function startTimer(): number {
         Melodies.playTimer()
     })
     return t
+}
+
+function updateTargetRandomization(): void {
+    let target: number = Countdown.getRandomTarget()
+    Countdown.showTarget(target)
+    g_currentRandomization++
+    if (g_currentRandomization >= RANDOMIZATION_COUNT) {
+        Tutorial.numbersRoundTimer()
+        let delay: number = startTimer(TARGET_REVEAL_PAUSE)
+        timer.after(delay + 5000, () => {
+            console.log("Looking for puzzle solution.")
+            Countdown.initNumbersRoundSolve()
+            g_gameMode = SpriteKind.NumbersBoardTimer
+        })
+    } else {
+        timer.after(RANDOMIZATION_DELAY, updateTargetRandomization)
+    }
 }
 
 /**
@@ -273,7 +335,7 @@ game.onUpdate(() => {
         case SpriteKind.LettersBoardTimer:
             if (info.countdown() == 0 && !Melodies.playing()) {
                 g_gameMode = SpriteKind.None
-                console.log("Solution: " + Countdown.getLetterSolution())
+                // console.log("Solution: " + Countdown.getLetterSolution())
                 if (Players.numPlayers() == 1) {
                 } else {
                     Countdown.clearLettersBoard()
@@ -305,10 +367,29 @@ game.onUpdate(() => {
                 Countdown.updateLettersScore()
             }
             break
+        
+        case SpriteKind.NumbersBoardTimer:
+            Countdown.nextNumberSolveStep()
+            if (info.countdown() == 0 && !Melodies.playing()) {
+                g_gameMode = SpriteKind.None
+            }
+            break
     }
 })
 
 /**
  * Main
  */
-runIntro()
+// runIntro()
+
+Players.register(2)
+Players.register(1)
+g_gameType = {
+        name: "Quick Game",
+        rounds: "LLNC",
+        time: 10
+}
+g_currentRound = 2
+g_playerInControl = 2
+Tutorial.enable()
+beginRound()

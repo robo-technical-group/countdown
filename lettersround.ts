@@ -117,12 +117,12 @@ namespace Countdown {
         return currLetterSolution
     }
 
-    export function getNextConsonant(): string {
+    function getNextConsonant(): string {
         currConsonant++
         return consonants[currConsonant - 1]
     }
 
-    export function getNextVowel(): string {
+    function getNextVowel(): string {
         currVowel++
         return vowels[currVowel - 1]
     }
@@ -135,7 +135,7 @@ namespace Countdown {
         return numVowels
     }
 
-    function init(): void {
+    function initLettersArrays(): void {
         consonants = buildLetters(CONSONANT_DISTRIBUTION)
         currConsonant = 0
         vowels = buildLetters(VOWEL_DISTRIBUTION)
@@ -158,7 +158,7 @@ namespace Countdown {
 
     export function startLettersRound(): void {
         if (consonants.length == 0) {
-            init()
+            initLettersArrays()
         }
         if (consonants.length - currConsonant < 6) {
             consonants = buildLetters(CONSONANT_DISTRIBUTION)

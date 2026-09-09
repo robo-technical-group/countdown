@@ -32,7 +32,7 @@ namespace RoundSplash {
     }
 
     function exitSprites(): void {
-        roundSprite.vy = 60
+        roundSprite.vy = 80
         roundDesc.vx = -150
     }
 

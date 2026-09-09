@@ -31,6 +31,8 @@
         "lettersround.ts",
         "melodiesmml.ts",
         "melodies.ts",
+        "numberboard.ts",
+        "numbersround.ts",
         "pausemenu.ts",
         "players.ts",
         "roundsplash.ts",
