@@ -3,14 +3,14 @@
  * Requires microsoft/arcade-text and riknoll/arcade-fancy-text.
  */
 namespace Countdown {
-    const DIRECTIONS: string[] = [
+    const LETTER_BID_DIRECTIONS: string[] = [
         "Enter longest word length",
         "Arrow=change A=select",
     ]
 
-    let wordLengths: number[] = []
-    let wordLengthFinalized: boolean[] = []
-    let wordLengthSprites: TextSprite[] = []
+    let wordLengths: number[] = [0, 0, 0, 0, 0,]
+    let wordLengthFinalized: boolean[] = [false, false, false, false, false,]
+    let wordLengthSprites: TextSprite[] = [null, null, null, null, null,]
 
     export function allLettersDeclared(): boolean {
         for (let p: number = 1; p < 5; p++) {
@@ -73,14 +73,14 @@ namespace Countdown {
         let x: number = 80
         let y: number = 105
         let ts: TextSprite = textsprite.create(
-            DIRECTIONS[0], 0, 1
+            LETTER_BID_DIRECTIONS[0], 0, 1
         )
         ts.setMaxFontHeight(5)
         ts.setPosition(x, y)
         ts.setKind(SpriteKind.LettersBoardDeclare)
         y += 7
         ts = textsprite.create(
-            DIRECTIONS[1], 0, 1
+            LETTER_BID_DIRECTIONS[1], 0, 1
         )
         ts.setMaxFontHeight(5)
         ts.setPosition(x, y)
@@ -116,13 +116,6 @@ namespace Countdown {
     }
 
     export function getLetterDeclaration(player: number): number {
-        if (player < 1 || player > 4) {
-            return -1
-        }
-        return wordLengths[player]
-    }
-
-    export function getPlayerBid(player: number): number {
         if (player < 1 || player > 4) {
             return -1
         }

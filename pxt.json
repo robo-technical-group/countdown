@@ -32,6 +32,7 @@
         "melodiesmml.ts",
         "melodies.ts",
         "numberboard.ts",
+        "numberdeclare.ts",
         "numbersround.ts",
         "pausemenu.ts",
         "players.ts",

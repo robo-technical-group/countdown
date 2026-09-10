@@ -124,9 +124,9 @@ namespace Countdown {
         )
         letterScorePlayerWords[player] = word
 
-        letterScoreBids[player] = Countdown.getPlayerBid(player) == playerSolution.length
+        letterScoreBids[player] = Countdown.getLetterDeclaration(player) == playerSolution.length
         let bidText: TextSprite = createLettersScoreTextSprite(
-            Countdown.getPlayerBid(player).toString(),
+            Countdown.getLetterDeclaration(player).toString(),
             accentColor, LETTER_SCORE_LEFTS[2], top, false
         )
         letterScoreBidTextSprites[player] = bidText

@@ -147,12 +147,26 @@ function beginNextRound(): void {
     }
 }
 
+function beginNumbersDeclare(): void {
+    Tutorial.numbersRoundDeclare()
+    Countdown.beginNumbersDeclare(Countdown.getTarget())
+}
+
 function beginNumbersRound(): void {
     // game.splash("STOP","Numbers round not ready.")
     Countdown.startNumbersRound()
     Countdown.initNumbersBoard()
     Countdown.showNumberInstructions(g_playerInControl, NUMBERS_ROUND_INSTRUCTIONS)
     Tutorial.numbersRound()
+}
+
+function beginNumbersSolve(): void {
+    if (Players.numPlayers() > 1) {
+        Countdown.clearNumberDeclareBoard()
+        Tutorial.numbersRoundSolve()
+    } else {
+        // Single player will use numbers board in solve mode.
+    }
 }
 
 function beginRound(): void {
@@ -372,6 +386,21 @@ game.onUpdate(() => {
             Countdown.nextNumberSolveStep()
             if (info.countdown() == 0 && !Melodies.playing()) {
                 g_gameMode = SpriteKind.None
+                console.log("Solution: " + Countdown.getNumbersSolution())
+                if (Players.numPlayers() == 1) {
+                } else {
+                    Countdown.clearNumbersBoard()
+                    beginNumbersDeclare()
+                    g_gameMode = SpriteKind.NumbersBoardDeclare
+                }
+            }
+            break
+        
+        case SpriteKind.NumbersBoardDeclare:
+            if (Countdown.allNumbersDeclared()) {
+                g_gameMode = SpriteKind.None
+                beginNumbersSolve()
+                g_gameMode = SpriteKind.NumbersBoardSolve
             }
             break
     }

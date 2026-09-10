@@ -3,6 +3,7 @@
  * Requires arrays extension (see array.ts).
  */
 namespace Countdown {
+    const NO_SOLUTION: string = "No solution found."
     const OPERATIONS: string[] = ['+', '-', 'x', '/',]
     const BIGS: number[] = [25, 50, 75, 100,]
     const BIGS_ALT: number[] = [12, 37, 62, 87,] // Not yet implemented.
@@ -178,6 +179,13 @@ namespace Countdown {
             currSmall = 1
         }
         return smalls[currSmall - 1]
+    }
+
+    export function getNumbersSolution(): string {
+        if (currNumbersRound.solution == null) {
+            return NO_SOLUTION
+        }
+        return currNumbersRound.solution.listSteps()
     }
 
     export function getRandomTarget(): number {

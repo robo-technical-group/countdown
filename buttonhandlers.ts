@@ -28,6 +28,10 @@ namespace ButtonHandlers {
             case SpriteKind.NumbersBoard:
                 addSmall(player)
                 break
+            
+            case SpriteKind.NumbersBoardDeclare:
+                Countdown.finalizeNumberBid(player)
+                break
         }
     }
 
@@ -56,6 +60,10 @@ namespace ButtonHandlers {
             case SpriteKind.LettersBoardSolve:
                 Countdown.moveLetterCursorMp(player, 0, 1)
                 break
+            
+            case SpriteKind.NumbersBoardDeclare:
+                Countdown.changeNumberBid(player, -1)
+                break
         }
     }
 
@@ -67,6 +75,10 @@ namespace ButtonHandlers {
             
             case SpriteKind.LettersBoardSolve:
                 Countdown.moveLetterCursorMp(player, -1, 0)
+                break
+            
+            case SpriteKind.NumbersBoardDeclare:
+                Countdown.changeNumberBid(player, -1)
                 break
         }
     }
@@ -88,6 +100,10 @@ namespace ButtonHandlers {
             case SpriteKind.LettersBoardSolve:
                 Countdown.moveLetterCursorMp(player, 1, 0)
                 break
+            
+            case SpriteKind.NumbersBoardDeclare:
+                Countdown.changeNumberBid(player, 1)
+                break
         }
     }
 
@@ -100,6 +116,10 @@ namespace ButtonHandlers {
             case SpriteKind.LettersBoardSolve:
                 Countdown.moveLetterCursorMp(player, 0, 1)
                 break
-        }
+             
+            case SpriteKind.NumbersBoardDeclare:
+                Countdown.changeNumberBid(player, 1)
+                break
+       }
     }
 }
