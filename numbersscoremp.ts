@@ -1,3 +1,7 @@
+/**
+ * Methods for managing multiplayer numbers round scoring.
+ * Requires microsoft/arcade-text and riknoll/arcade-fancy-text.
+ */
 namespace Countdown {
     const NUMBER_SCORE_LEFTS: number[] = [0, 10, 90, 130,]
     const NUMBER_SCORE_MISS: string = "Miss"

@@ -1,3 +1,7 @@
+/**
+ * Methods for managing multiplayer letters round solving.
+ * Requires microsoft/arcade-text and riknoll/arcade-fancy-text.
+ */
 namespace Countdown {
     const DONE_TEXT: string = "Done"
     const LETTER_SOLVE_MP_INSTRUCTIONS = "A=Select B=Delete"

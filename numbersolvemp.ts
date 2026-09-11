@@ -1,3 +1,7 @@
+/**
+ * Methods for managing multiplayer numbers round solving.
+ * Requires microsoft/arcade-text and riknoll/arcade-fancy-text.
+ */
 namespace Countdown {
     enum NumberRoundLocation {
         LeftNumber,

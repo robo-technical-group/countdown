@@ -1,3 +1,7 @@
+/**
+ * Methods for managing multiplayer letters round scoring.
+ * Requires microsoft/arcade-text and riknoll/arcade-fancy-text.
+ */
 namespace Countdown {
     const LETTER_SOLUTION_PREFIX: string = "Did you find "
     const LETTER_SOLUTION_SUFFIX: string = "?"
