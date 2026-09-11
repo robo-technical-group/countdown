@@ -160,9 +160,19 @@ function beginNumbersRound(): void {
     Tutorial.numbersRound()
 }
 
+function beginNumbersScore(): void {
+    Countdown.clearNumbersSolveMpBoard()
+    // Countdown.beginLettersScoreMp()
+    Tutorial.numbersRoundScore()
+    if (g_scoreMode.name[0] == "C") {
+        Tutorial.competitive()
+    }
+}
+
 function beginNumbersSolve(): void {
     if (Players.numPlayers() > 1) {
         Countdown.clearNumberDeclareBoard()
+        Countdown.beginNumbersSolveMp()
         Tutorial.numbersRoundSolve()
     } else {
         // Single player will use numbers board in solve mode.
@@ -403,6 +413,14 @@ game.onUpdate(() => {
                 g_gameMode = SpriteKind.NumbersBoardSolve
             }
             break
+        
+        case SpriteKind.NumbersBoardSolve:
+            if (Countdown.allNumbersSolved()) {
+                g_gameMode = SpriteKind.None
+                beginNumbersScore()
+                g_gameMode = SpriteKind.NumbersBoardScore
+            }
+            break
     }
 })
 
@@ -411,14 +429,38 @@ game.onUpdate(() => {
  */
 // runIntro()
 
-Players.register(2)
-Players.register(1)
+for (let i: number = 1; i < 5; i++) {
+        Players.register(i)
+    if (i != 3) {
+    }
+}
+Countdown.numbersDeclareTest()
 g_gameType = {
-        name: "Quick Game",
-        rounds: "LLNC",
-        time: 10
+    name: "Quick Game",
+    rounds: "LLNC",
+    time: 10
+}
+g_scoreMode = {
+    name: "Competitive",
+    desc: "Whatever"
 }
 g_currentRound = 2
 g_playerInControl = 2
 Tutorial.enable()
-beginRound()
+g_gameMode = SpriteKind.None
+Countdown.numbersRoundTest()
+/*
+Countdown.startNumbersRound()
+for (let b: number = 0; b < 2; b++) {
+    Countdown.addBig()
+}
+for (let l: number = 0; l < 4; l++) {
+    Countdown.addSmall()
+}
+Countdown.getRandomTarget()
+console.log("Solving numbers puzzle.")
+Countdown.solveNumbersRound()
+console.log("Finished solving.")
+*/
+beginNumbersSolve()
+g_gameMode = SpriteKind.NumbersBoardSolve

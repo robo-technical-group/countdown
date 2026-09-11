@@ -361,4 +361,15 @@ namespace Countdown {
             }
         }
     }
+
+    export function numbersRoundTest(): void {
+        startNumbersRound()
+        addNumber(100)
+        addNumber(50)
+        addNumber(75)
+        addNumber(25)
+        addNumber(10)
+        addNumber(10)
+        currNumbersRound.target = 790
+    }
 }

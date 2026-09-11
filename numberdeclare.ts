@@ -143,7 +143,8 @@ namespace Countdown {
     }
 
     export function numbersDeclareTest(): void {
-        numberSolutions = [0, 790, 791, 792, 793,]
+        // numberSolutions = [0, 790, 791, 792, 793,]
+        numberSolutions = [0, 790, 791, 0, 0,]
         numberDeclared = [false, true, true, true, true,]
     }
 }
