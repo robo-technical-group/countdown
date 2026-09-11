@@ -87,7 +87,7 @@ namespace Countdown {
         let x: number = left + 40
         let y: number = top + 20
         let pft: fancyText.TextSprite = fancyText.create(
-            `Player ${player} (${Countdown.getLetterDeclaration(player)})`,
+            `Player ${player} (${Countdown.getLetterBid(player)})`,
             null, accentColor, fancyText.bold_sans_7
         )
         pft.setPosition(x, y)

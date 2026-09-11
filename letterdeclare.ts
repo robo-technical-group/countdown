@@ -8,13 +8,13 @@ namespace Countdown {
         "Arrow=change A=select",
     ]
 
-    let wordLengths: number[] = [0, 0, 0, 0, 0,]
-    let wordLengthFinalized: boolean[] = [false, false, false, false, false,]
-    let wordLengthSprites: TextSprite[] = [null, null, null, null, null,]
+    let wordBids: number[] = [0, 0, 0, 0, 0,]
+    let wordBidFinalized: boolean[] = [false, false, false, false, false,]
+    let wordBidSprites: TextSprite[] = [null, null, null, null, null,]
 
     export function allLettersDeclared(): boolean {
         for (let p: number = 1; p < 5; p++) {
-            if (Players.isRegistered(p) && !wordLengthFinalized[p]) {
+            if (Players.isRegistered(p) && !wordBidFinalized[p]) {
                 return false
             }
         }
@@ -22,10 +22,10 @@ namespace Countdown {
     }
 
     export function beginLettersDeclare(puzzle: string): void {
-        clearLetterDeclareBoard()
-        wordLengths = [0, 0, 0, 0, 0,]
-        wordLengthFinalized = [false, false, false, false, false,]
-        wordLengthSprites = [null, null, null, null, null,]
+        clearLetterBidBoard()
+        wordBids = [0, 0, 0, 0, 0,]
+        wordBidFinalized = [false, false, false, false, false,]
+        wordBidSprites = [null, null, null, null, null,]
         let p: TextSprite = textsprite.create(puzzle, Color.Blue, Color.White)
         p.setKind(SpriteKind.LettersBoardDeclare)
         p.setBorder(1, Color.Aqua, 1)
@@ -33,43 +33,43 @@ namespace Countdown {
         p.x = 80
         p.top = 0
         if (Players.isRegistered(1)) {
-            drawWordLengthPanel(0, 0, 1)
+            drawWordBidPanel(0, 0, 1)
         }
         if (Players.isRegistered(2)) {
-            drawWordLengthPanel(80, 0, 2)
+            drawWordBidPanel(80, 0, 2)
         }
         if (Players.isRegistered(3)) {
-            drawWordLengthPanel(0, 60, 3)
+            drawWordBidPanel(0, 60, 3)
         }
         if (Players.isRegistered(4)) {
-            drawWordLengthPanel(80, 60, 4)
+            drawWordBidPanel(80, 60, 4)
         }
-        drawWordLengthInstructions()
+        drawWordBidInstructions()
     }
 
-    export function changeLetterDeclaration(player: number, delta: number): void {
+    export function changeLettersBid(player: number, delta: number): void {
         if (
             player < 1 || player > 4 ||
             !Players.isRegistered(player) ||
-            wordLengthFinalized[player]
+            wordBidFinalized[player]
         ) {
             return
         }
-        wordLengths[player] += delta
-        if (wordLengths[player] < 3) {
-            wordLengths[player] = 9
+        wordBids[player] += delta
+        if (wordBids[player] < 3) {
+            wordBids[player] = 9
         }
-        if (wordLengths[player] > 9) {
-            wordLengths[player] = 3
+        if (wordBids[player] > 9) {
+            wordBids[player] = 3
         }
-        updateWordLengthSprite(player)
+        updateWordBidSprite(player)
     }
 
-    export function clearLetterDeclareBoard(): void {
+    export function clearLetterBidBoard(): void {
         sprites.destroyAllSpritesOfKind(SpriteKind.LettersBoardDeclare)
     }
 
-    function drawWordLengthInstructions(): void {
+    function drawWordBidInstructions(): void {
         let x: number = 80
         let y: number = 105
         let ts: TextSprite = textsprite.create(
@@ -87,7 +87,7 @@ namespace Countdown {
         ts.setKind(SpriteKind.LettersBoardDeclare)
     }
 
-    function drawWordLengthPanel(left: number, top: number, player: number): void {
+    function drawWordBidPanel(left: number, top: number, player: number): void {
         let accentColor: number = Players.accentColor(player)
         let x: number = left + 40
         let y: number = top + 20
@@ -102,31 +102,31 @@ namespace Countdown {
         ts.setMaxFontHeight(12)
         ts.setPosition(x, y)
         ts.setKind(SpriteKind.LettersBoardDeclare)
-        wordLengthSprites[player] = ts
-        wordLengths[player] = 3
-        updateWordLengthSprite(player)
+        wordBidSprites[player] = ts
+        wordBids[player] = 3
+        updateWordBidSprite(player)
     }
 
-    export function finalizeLetterDeclaration(player: number): void {
+    export function finalizeLetterBid(player: number): void {
         if (player < 1 || player > 4) {
             return
         }
-        wordLengthFinalized[player] = true
-        updateWordLengthSprite(player)
+        wordBidFinalized[player] = true
+        updateWordBidSprite(player)
     }
 
-    export function getLetterDeclaration(player: number): number {
+    export function getLetterBid(player: number): number {
         if (player < 1 || player > 4) {
             return -1
         }
-        return wordLengths[player]
+        return wordBids[player]
     }
 
-    function updateWordLengthSprite(player: number): void {
+    function updateWordBidSprite(player: number): void {
         let accentColor: number = Players.accentColor(player)
-        let s: TextSprite = wordLengthSprites[player]
-        s.setText(wordLengths[player].toString())
-        if (wordLengthFinalized[player]) {
+        let s: TextSprite = wordBidSprites[player]
+        s.setText(wordBids[player].toString())
+        if (wordBidFinalized[player]) {
             s.fg = Color.Black
             s.bg = accentColor
         } else {
@@ -137,7 +137,7 @@ namespace Countdown {
     }
 
     export function lettersDeclareTest(): void {
-        wordLengths = [0, 5, 6, 7, 9,]
-        wordLengthFinalized = [false, true, true, true, true,]
+        wordBids = [0, 5, 6, 7, 9,]
+        wordBidFinalized = [false, true, true, true, true,]
     }
 }

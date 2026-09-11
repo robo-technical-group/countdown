@@ -116,7 +116,7 @@ function beginLettersScore(): void {
 
 function beginLettersSolve(): void {
     if (Players.numPlayers() > 1) {
-        Countdown.clearLetterDeclareBoard()
+        Countdown.clearLetterBidBoard()
         Countdown.beginLetterSolveMp()
         Tutorial.lettersRoundSolve()
     } else {

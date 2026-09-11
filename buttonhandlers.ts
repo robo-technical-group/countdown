@@ -12,7 +12,7 @@ namespace ButtonHandlers {
                 break
             
             case SpriteKind.LettersBoardDeclare:
-                Countdown.finalizeLetterDeclaration(player)
+                Countdown.finalizeLetterBid(player)
                 break
             
             case SpriteKind.LettersBoardSolve:
@@ -54,7 +54,7 @@ namespace ButtonHandlers {
     export function Down(player: number): void {
         switch (g_gameMode) {
             case SpriteKind.LettersBoardDeclare:
-                Countdown.changeLetterDeclaration(player, -1)
+                Countdown.changeLettersBid(player, -1)
                 break
             
             case SpriteKind.LettersBoardSolve:
@@ -70,7 +70,7 @@ namespace ButtonHandlers {
     export function Left(player: number): void {
         switch (g_gameMode) {
             case SpriteKind.LettersBoardDeclare:
-                Countdown.changeLetterDeclaration(player, -1)
+                Countdown.changeLettersBid(player, -1)
                 break
             
             case SpriteKind.LettersBoardSolve:
@@ -94,7 +94,7 @@ namespace ButtonHandlers {
     export function Right(player: number): void {
         switch (g_gameMode) {
             case SpriteKind.LettersBoardDeclare:
-                Countdown.changeLetterDeclaration(player, 1)
+                Countdown.changeLettersBid(player, 1)
                 break
             
             case SpriteKind.LettersBoardSolve:
@@ -110,7 +110,7 @@ namespace ButtonHandlers {
     export function Up(player: number): void {
         switch (g_gameMode) {
             case SpriteKind.LettersBoardDeclare:
-                Countdown.changeLetterDeclaration(player, 1)
+                Countdown.changeLettersBid(player, 1)
                 break
             
             case SpriteKind.LettersBoardSolve:
