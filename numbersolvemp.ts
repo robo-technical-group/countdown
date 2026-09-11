@@ -160,6 +160,13 @@ namespace Countdown {
         }
     }
 
+    export function getPlayerNumberSolution(player: number): number {
+        if (player < 1 || player > 4) {
+            return -1
+        }
+        return numberSolutions[player]
+    }
+
     function highlightNumberSolveSprite(ts: TextSprite, highlightOn: boolean): void {
         ts.borderColor =
             highlightOn ? Color.White : Color.Black
@@ -257,13 +264,18 @@ namespace Countdown {
     }
 
     export function selectNumberCursorMp(player: number): void {
+        if (numberSolutions[player] > -1) {
+            return
+        }
         let ts: TextSprite = null
         let currLocation: NumberRoundLocation = currLocations[player]
         let currCalc: Calculation = currCalculations[player]
         switch (currLocation) {
             case NumberRoundLocation.LeftNumber:
                 ts = numberSolveSprites[player][selectedNumbers[player]]
-                if (ts.fg != ts.bg) {
+                if (ts.fg == ts.bg) {
+                    break
+                } else {
                     currCalc.lhs = parseInt(ts.text)
                     updateCurrCalcSprite(player)
                     ts.fg = ts.bg
@@ -285,7 +297,9 @@ namespace Countdown {
             
             case NumberRoundLocation.RightNumber:
                 ts = numberSolveSprites[player][selectedNumbers[player]]
-                if (ts.fg != ts.bg) {
+                if (ts.fg == ts.bg) {
+                    break
+                } else {
                     currCalc.rhs = parseInt(ts.text)
                 }
                 let calc: number = 0
@@ -334,5 +348,15 @@ namespace Countdown {
         let f: fancyText.TextSprite = currCalcSprites[player]
         f.setText(t)
         f.x = 40 + 80 * ((player + 1) % 2)
+    }
+
+    export function numberSolveMpTest(): void {
+        numberSolutions = [
+            0,
+            getTarget(),
+            getTarget() - 10,
+            0,
+            getTarget() - 1
+        ]
     }
 }

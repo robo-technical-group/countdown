@@ -14,10 +14,19 @@ namespace Tutorial {
         FirstLettersSolve,
         FirstLettersScore,
         FirstCompetitive,
-        FirstNumbers,
-        FirstNumbersTimer,
+        FirstNumbersA,
+        FirstNumbersB,
+        FirstNumbersC,
+        FirstNumbersD,
+        FirstNumbersE,
+        FirstNumbersF,
+        FirstNumbersTimerA,
+        FirstNumbersTimerB,
+        FirstNumbersTimerC,
+        FirstNumbersTimerD,
         FirstNumbersDeclare,
-        FirstNumbersSolve,
+        FirstNumbersSolveA,
+        FirstNumbersSolveB,
         FirstNumbersScore,
         FirstConundrum,
         Last // Used for counting; keep as last item.
@@ -105,6 +114,84 @@ namespace Tutorial {
         // First Competitive
         'Because you are playing in competitive mode, ' +
         'only the highest score(s) count each round!',
+
+        // First Numbers A
+        'Welcome to the numbers round!\n \n' +
+        'You will create a puzzle board and then try to calculate a target value.',
+
+        // First Numbers B
+        "At the top of the screen is the number board. Right now, it's empty.\n \n" +
+        'The player in control will create the puzzle.',
+
+        // First Numbers C
+        'Instructions to build the puzzle are at the bottom of the screen. ' +
+        'The player in control will create the puzzle one number at a time. ' +
+        'Press A to add a small number and B to add a big number. ',
+
+        // First Numbers D
+        'Small numbers are between 1 and 10, and there are two of each ' +
+        'of the small numbers in the deck. ' +
+        'Big numbers are 25, 50, 75, and 100.',
+
+        // First Numbers E
+        'Puzzles with two big numbers tend to be the easiest. ' +
+        'Puzzles with no big numbers are REALLY difficult. ',
+
+        // First Numbers F
+        'Time to build your first numbers puzzle!',
+
+        // First Numbers Timer A
+        'A target number between 100 and 999 has been generated. ' +
+        'Your job now is to try to create a series of calculations ' +
+        'that gets as close to the target as possible.',
+
+        // First Numbers Timer B
+        'Only the four basic operations (add, subtract, multiply, divide) ' +
+        'are permitted. A number may not be used more times than it appears ' +
+        'on the puzzle board. Fractions and negative numbers are not allowed. ' +
+        'You DO NOT have to use all of the numbers.',
+
+        // First Numbers Timer C
+        'Get as close to the target as you can! If you are more than 10 away ' +
+        'from the target, then you will not earn any points.',
+
+        // First Numbers Timer D
+        'Your 30 seconds are about to start. Good luck!',
+
+        // First Numbers Declare
+        "How did you do? Let's find out!\n \n" +
+        'Just like in the letters round, you must declare your bid. ' +
+        'Enter the ending value of your calculations. ' +
+        'Use the arrows to change your response. ' +
+        'Press A to lock in your bid. ' +
+        'When you lock your bid, it will highlight ' +
+        'and you will not be able to change it.\n \n' +
+        'Lock in your bids now!',
+
+        // First Numbers Solve A
+        "It's time to enter your solution!\n \n" +
+        'Move the cursor with your D-pad and A to select. ' +
+        'For each calculation in your sequence, ' +
+        'select the first number, then an operator, ' +
+        'then the second number. ' +
+        'As long as the calculation is valid, the result ' +
+        'will appear as a new tile. ' +
+        'When you reach your bid, your solution will ' +
+        'automatically lock in. You also can lock in your ' +
+        'solution by selecting the = operator.\n \n' +
+        'As a reminder, your bid appears in parentheses. ',
+
+        // First Numbers Solve B
+        'Just like in the game show, once you begin ' +
+        'entering your calculation, you cannot restart. ' +
+        'So go slowly and enter your calculations carefully.',
+
+        // First Numbers Score
+        "Now, let's score your solutions! " +
+        'If your solution is valid, ' +
+        'you earn 10 points if you hit the target exactly, ' +
+        '7 points if you are +/- 5 of the target, and ' +
+        '5 points if you are +/- 10 of the target.'
     ]
 
     export function areEnabled(): boolean {
@@ -199,23 +286,38 @@ namespace Tutorial {
     }
 
     export function numbersRound(): void {
-
+        show(Tutorial.FirstNumbersA, DialogLayout.Full)
+        setState(Tutorial.FirstNumbersA, false)
+        show(Tutorial.FirstNumbersB, DialogLayout.Bottom)
+        show(Tutorial.FirstNumbersC, DialogLayout.Bottom)
+        show(Tutorial.FirstNumbersD, DialogLayout.Bottom)
+        show(Tutorial.FirstNumbersE, DialogLayout.Bottom)
+        show(Tutorial.FirstNumbersF, DialogLayout.Center)
+        setState(Tutorial.FirstNumbersA, true)
     }
 
     export function numbersRoundTimer(): void {
-
+        show(Tutorial.FirstNumbersTimerA, DialogLayout.Bottom)
+        setState(Tutorial.FirstNumbersTimerA, false)
+        show(Tutorial.FirstNumbersTimerB, DialogLayout.Bottom)
+        show(Tutorial.FirstNumbersTimerC, DialogLayout.Bottom)
+        show(Tutorial.FirstNumbersTimerD, DialogLayout.Bottom)
+        setState(Tutorial.FirstNumbersTimerA, true)
     }
 
     export function numbersRoundDeclare(): void {
-
+        show(Tutorial.FirstNumbersDeclare, DialogLayout.Full)
     }
 
-    export function numbersRoundSolve(): void {
-
+    export function numbersRoundSolve(): void { 
+        show(Tutorial.FirstNumbersSolveA, DialogLayout.Bottom)
+        setState(Tutorial.FirstNumbersSolveA, false)
+        show(Tutorial.FirstNumbersSolveB, DialogLayout.Bottom)
+        setState(Tutorial.FirstNumbersSolveA, true)
     }
 
     export function numbersRoundScore(): void {
-
+        show(Tutorial.FirstNumbersScore, DialogLayout.Full)
     }
 
     export function conundrum(): void {

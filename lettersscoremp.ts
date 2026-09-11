@@ -2,6 +2,14 @@ namespace Countdown {
     const LETTER_SOLUTION_PREFIX: string = "Did you find "
     const LETTER_SOLUTION_SUFFIX: string = "?"
     const LETTER_SCORE_LEFTS: number[] = [0, 10, 90, 115, 140,]
+    const LETTER_SCORE_HEADERS: string[] = [
+        "P",
+        "Word",
+        "Bid",
+        "Valid",
+        "Score",
+    ]
+    const LETTER_SCORE_HEADER_OFFSETS: number[] = [0, 0, 10, 15, 12,]
     const LETTER_SCORE_INSTRUCTIONS: string = "Player 1 Press A"
 
     let letterHighScore: number = 0
@@ -75,12 +83,15 @@ namespace Countdown {
     }
 
     function createLettersScoreHeaders(top: number): void {
-        let _: TextSprite = null
-        _ = createLettersScoreTextSprite("P", Color.White, LETTER_SCORE_LEFTS[0], top, true)
-        _ = createLettersScoreTextSprite("Word", Color.White, LETTER_SCORE_LEFTS[1], top, true)
-        _ = createLettersScoreTextSprite("Bid", Color.White, LETTER_SCORE_LEFTS[2] - 10, top, true)
-        _ = createLettersScoreTextSprite("Valid", Color.White, LETTER_SCORE_LEFTS[3] - 15, top, true)
-        _ = createLettersScoreTextSprite("Score", Color.White, LETTER_SCORE_LEFTS[4] - 12, top, true)
+        for (let i: number = 0; i < LETTER_SCORE_HEADERS.length; i++) {
+            let _: TextSprite =
+                createLettersScoreTextSprite(
+                    LETTER_SCORE_HEADERS[i],
+                    Color.White,
+                    LETTER_SCORE_LEFTS[i] - LETTER_SCORE_HEADER_OFFSETS[i],
+                    top, true
+                )
+        }
     }
 
     function createLettersScoreSprite(
@@ -188,7 +199,7 @@ namespace Countdown {
         let updated: boolean = false
         while (!updated) {
             switch (letterScoreCurrentColumn) {
-                // Player
+                // Player word
                 case 0:
                     if (Players.isRegistered(letterScoreCurrentPlayer)) {
                         letterScorePlayerWords[letterScoreCurrentPlayer].setFlag(SpriteFlag.Invisible, false)
@@ -204,7 +215,7 @@ namespace Countdown {
                     updated = true
                     break
                 
-                // Bid Valid
+                // Bid valid
                 case 2:
                     if (Players.isRegistered(letterScoreCurrentPlayer)) {
                         letterScoreBidSprites[letterScoreCurrentPlayer].setFlag(SpriteFlag.Invisible, false)
@@ -217,7 +228,7 @@ namespace Countdown {
                     }
                     break
                 
-                // Word Valid
+                // Word valid
                 case 3:
                     if (Players.isRegistered(letterScoreCurrentPlayer)) {
                         letterScoreValidSprites[letterScoreCurrentPlayer].setFlag(SpriteFlag.Invisible, false)
@@ -238,7 +249,7 @@ namespace Countdown {
                     }
                     break
                 
-                // Register Scores
+                // Register scores
                 case 5:
                     if (Players.isRegistered(letterScoreCurrentPlayer)) {
                         if (g_scoreMode.name[0] == "C") {

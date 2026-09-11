@@ -9,8 +9,8 @@ namespace Countdown {
     ]
 
     let numberDeclared: boolean[] = [false, false, false, false, false,]
-    let numberSolutions: number[] = [0, 0, 0, 0, 0,]
-    let numberSolnSprites: TextSprite[] = []
+    let numberBids: number[] = [0, 0, 0, 0, 0,]
+    let numberBidSprites: TextSprite[] = []
     let target: number = 0
 
     export function allNumbersDeclared(): boolean {
@@ -26,8 +26,8 @@ namespace Countdown {
         target = puzzle
         clearNumberDeclareBoard()
         numberDeclared = [false, false, false, false, false,]
-        numberSolutions = [0, 0, 0, 0, 0,]
-        numberSolnSprites = [null, null, null, null, null,]
+        numberBids = [0, 0, 0, 0, 0,]
+        numberBidSprites = [null, null, null, null, null,]
         let p: TextSprite = textsprite.create(puzzle.toString(), Color.Blue, Color.White)
         p.setKind(SpriteKind.NumbersBoardDeclare)
         p.setBorder(1, Color.Aqua, 1)
@@ -57,12 +57,12 @@ namespace Countdown {
         ) {
             return
         }
-        numberSolutions[player] += delta
-        if (numberSolutions[player] < target - 11) {
-            numberSolutions[player] = target + 10
+        numberBids[player] += delta
+        if (numberBids[player] < target - 11) {
+            numberBids[player] = target + 10
         }
-        if (numberSolutions[player] > target + 11) {
-            numberSolutions[player] = target - 10
+        if (numberBids[player] > target + 11) {
+            numberBids[player] = target - 10
         }
         updateNumberSolnSprite(player)
     }
@@ -104,8 +104,8 @@ namespace Countdown {
         ts.setMaxFontHeight(12)
         ts.setPosition(x, y)
         ts.setKind(SpriteKind.NumbersBoardDeclare)
-        numberSolnSprites[player] = ts
-        numberSolutions[player] = target
+        numberBidSprites[player] = ts
+        numberBids[player] = target
         updateNumberSolnSprite(player)
     }
 
@@ -121,16 +121,16 @@ namespace Countdown {
         if (player < 1 || player > 4) {
             return -1
         }
-        return numberSolutions[player]
+        return numberBids[player]
     }
 
     function updateNumberSolnSprite(player: number): void {
         let accentColor: number = Players.accentColor(player)
-        let n: TextSprite = numberSolnSprites[player]
+        let n: TextSprite = numberBidSprites[player]
         n.setText(
-            Math.abs(target - numberSolutions[player]) > 10 ?
+            Math.abs(target - numberBids[player]) > 10 ?
             "Miss" :
-            numberSolutions[player].toString()
+            numberBids[player].toString()
         )
         if (numberDeclared[player]) {
             n.fg = Color.Black
@@ -143,8 +143,15 @@ namespace Countdown {
     }
 
     export function numbersDeclareTest(): void {
-        // numberSolutions = [0, 790, 791, 792, 793,]
-        numberSolutions = [0, 790, 791, 0, 0,]
+        // numberBids = [0, 790, 791, 792, 793,]
+        // numberBids = [0, 790, 791, 0, 0,]
+        numberBids = [
+            0,
+            getTarget(),
+            getTarget() - 10,
+            0,
+            getTarget() - 1
+        ]
         numberDeclared = [false, true, true, true, true,]
     }
 }

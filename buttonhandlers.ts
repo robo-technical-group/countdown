@@ -36,6 +36,11 @@ namespace ButtonHandlers {
             case SpriteKind.NumbersBoardSolve:
                 Countdown.selectNumberCursorMp(player)
                 break
+            
+            case SpriteKind.NumbersBoardScore:
+                if (Countdown.updateNumberScoreDone() && player == 1) {
+                    beginNextRound()
+                }
         }
     }
 

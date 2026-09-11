@@ -35,6 +35,7 @@
         "numberdeclare.ts",
         "numbersolvemp.ts",
         "numbersround.ts",
+        "numbersscoremp.ts",
         "pausemenu.ts",
         "players.ts",
         "roundsplash.ts",
