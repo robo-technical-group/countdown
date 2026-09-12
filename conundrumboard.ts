@@ -81,11 +81,7 @@ namespace Countdown {
         for (let t of conundrumSolutionTiles) {
             t.setFlag(SpriteFlag.Invisible, true)
         }
-        for (let t of conundrumTiles) {
-            t.fg = Color.White
-            t.borderColor = Color.LightBlue
-            t.update()
-        }
+        restoreConundrum()
     }
 
     export function initConundrumBoard(): void {
@@ -138,6 +134,14 @@ namespace Countdown {
             conundrumSelectedTile = 8
         }
         highlightConundrumTile(conundrumSelectedTile, true)
+    }
+
+    export function restoreConundrum(): void {
+        for (let t of conundrumTiles) {
+            t.fg = Color.White
+            t.borderColor = Color.LightBlue
+            t.update()
+        }
     }
 
     function setConundrumLetter(location: number, letter: string): void {

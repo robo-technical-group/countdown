@@ -25,6 +25,7 @@
         "conundrum.ts",
         "conundrumboard.ts",
         "enums.ts",
+        "finalscores.ts",
         "intro.ts",
         "letterboard.ts",
         "letterdeclare.ts",

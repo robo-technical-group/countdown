@@ -136,8 +136,15 @@ function beginConundrum(): void {
         g_stopwatch.start()
         g_stopwatch.setFlag(SpriteFlag.Invisible, false)
         g_gameMode = SpriteKind.ConundrumBoard
+        console.log(`Solution: ${Countdown.getConundrumSolution()}`)
         Melodies.playMainTheme()
     })
+}
+
+function beginFinalScores(): void {
+    Countdown.beginFinalScores()
+    g_gameMode = SpriteKind.FinalScores
+    g_nextUpdate = game.runtime() + UPDATE_INTERVAL
 }
 
 function beginLettersDeclare(): void {
@@ -195,7 +202,7 @@ function beginNextRound(): void {
     if (g_currentRound < g_gameType.rounds.length) {
         beginRound()
     } else {
-        endGame()
+        beginFinalScores()
     }
 }
 
@@ -274,7 +281,7 @@ function checkConundrum(): void {
     if (soln == proposal || WordLists.isWordValid(proposal)) {
         music.play(music.melodyPlayable(music.magicWand), music.PlaybackMode.UntilDone)
         Players.changeScoreBy(g_playerInControl, 10)
-        beginNextRound()
+        endConundrum()
     } else {
         conundrumFail()
     }
@@ -295,16 +302,7 @@ function conundrumDeleteLetter(player: number): void {
     }
     if (g_playerInControl == 0 && player == 1) {
         // End conundrum round
-        if (Melodies.playing) {
-            Melodies.stopAll()
-        }
-        Countdown.clearConundrumInstructions()
-        g_conundrumReveal = Countdown.getConundrumSolution()
-        g_stopwatch.reset()
-        g_stopwatch.setFlag(SpriteFlag.Invisible, true)
-        g_conundrumRevealLetter = 0
-        g_nextUpdate = game.runtime() + UPDATE_INTERVAL * 2
-        g_gameMode = SpriteKind.ConundrumReveal
+        endConundrum()
         return
     }
 }
@@ -359,8 +357,18 @@ function conundrumSelectLetter(): void {
     }
 }
 
-function endGame(): void {
-    game.splash("End of game!")
+function endConundrum(): void {
+    if (Melodies.playing) {
+        Melodies.stopAll()
+    }
+    Countdown.clearConundrumInstructions()
+    Countdown.restoreConundrum()
+    g_conundrumReveal = Countdown.getConundrumSolution()
+    g_stopwatch.reset()
+    g_stopwatch.setFlag(SpriteFlag.Invisible, true)
+    g_conundrumRevealLetter = 0
+    g_nextUpdate = game.runtime() + UPDATE_INTERVAL * 2
+    g_gameMode = SpriteKind.ConundrumReveal
 }
 
 function runIntro(): void {
@@ -587,7 +595,16 @@ game.onUpdate(() => {
                 }
             }
             break
+        
+        case SpriteKind.FinalScores:
+            Countdown.updateFinalScores(true)
+            if (game.runtime() >= g_nextUpdate) {
+                Countdown.updateFinalScores(false)
+                g_nextUpdate = game.runtime() + UPDATE_INTERVAL
+            }
+            break
     }
+
     if (g_stopwatch != null && g_stopwatch.getState()) {
         g_stopwatch.update()
         g_stopwatch.x = 80
@@ -598,4 +615,25 @@ game.onUpdate(() => {
  * Main
  */
 keymap.setSystemKeys(0, 0, 0, 0)
-runIntro()
+// runIntro()
+
+Countdown.generateConundrum()
+for (let i: number = 1; i < 5; i++) {
+        Players.register(i)
+    if (i != 3) {
+    }
+}
+g_gameType = {
+    name: "Quick Game",
+    rounds: "LLNC",
+    time: 10
+}
+g_scoreMode = {
+    name: "Friendly",
+    desc: "Whatever"
+}
+g_currentRound = 3
+g_playerInControl = 2
+Tutorial.enable()
+g_gameMode = SpriteKind.None
+beginRound()
