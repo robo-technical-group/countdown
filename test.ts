@@ -105,3 +105,41 @@ g_playerInControl = 2
 Tutorial.enable()
 beginRound()
 */
+
+
+/*
+for (let i: number = 0; i < 10; i++) {
+    Countdown.generateConundrum()
+    let msg: string = Countdown.getConundrum() + " |"
+    for (let w of Countdown.getConundrumAsWords()) {
+        msg += " " + w
+    }
+    msg += " | " +
+        Countdown.getConundrumSolution()
+    console.log(msg)
+    loops.pause(1000)
+}
+*/
+
+/*
+Countdown.generateConundrum()
+for (let i: number = 1; i < 5; i++) {
+        Players.register(i)
+    if (i != 3) {
+    }
+}
+g_gameType = {
+    name: "Quick Game",
+    rounds: "LLNC",
+    time: 10
+}
+g_scoreMode = {
+    name: "Friendly",
+    desc: "Whatever"
+}
+g_currentRound = 3
+g_playerInControl = 2
+Tutorial.enable()
+g_gameMode = SpriteKind.None
+beginRound()
+*/

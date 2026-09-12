@@ -348,7 +348,6 @@ namespace Countdown {
                     n.allSolutions.sort((v1: Value, v2: Value) =>
                         v1.compareTo(v2, n.target))
                         */
-                    console.log(`Solved at ${game.runtime()}.`)
                     n.solved = true
                 } else {
                     rhsIndex = lhsIndex + 1

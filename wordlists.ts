@@ -15975,7 +15975,6 @@ namespace WordLists {
         if (ready) { return }
         if (building) { return }
         building = true
-        console.log("Starting asynchronous word list build.")
         timer.after(100, runNextBuild)
     }
 
@@ -16035,6 +16034,7 @@ namespace WordLists {
     export function startBuildingWordSets(): void {
         currBuild = 9
         ready = false
+        console.log("Starting asynchronous word list build.")
     }
 
     //% block="get arrangements of characters $w from word set $s"
