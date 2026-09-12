@@ -1,6 +1,15 @@
 /**
  * Constants
  */
+const CONUNDRUM_INSTRUCTIONS_FIRST: string = "Player "
+const CONUNDRUM_INSTRUCTIONS_REST: string[] = [
+    "A=Select B=Delete",
+    "Enter nonsense word to exit"
+]
+const CONUNDRUM_INSTRUCTIONS_REVEALED: string[] = [
+    "Player 1",
+    "Press A to continue"
+]
 const LETTERS_ROUND_INSTRUCTIONS: string = "A = Consonant, B = Vowel"
 const LETTERS_ROUND_NO_MORE_CONSONANTS: string = "\nSelect at least 3 vowels."
 const LETTERS_ROUND_NO_MORE_VOWELS: string = "\nSelect at least 4 consonants."
@@ -22,6 +31,9 @@ const UPDATE_INTERVAL: number = 750
 /**
  * Global variables
  */
+let g_conundrumFailed: boolean[] = [false, false, false, false, false,]
+let g_conundrumReveal: string = ""
+let g_conundrumRevealLetter: number = 0
 let g_currentRandomization: number = 0
 let g_currentRound: number = 0
 let g_gameMode: number = SpriteKind.None
@@ -29,6 +41,7 @@ let g_gameType: GameType = null
 let g_nextUpdate: number = 0
 let g_playerInControl: number = 0
 let g_scoreMode: ScoreType = null
+let g_stopwatch: Stopwatch = null
 let g_timerInstructions: fancyText.TextSprite[] = []
 
 /**
@@ -90,7 +103,42 @@ function begin(): void {
 }
 
 function beginConundrum(): void {
-    game.splash("STOP", "Conundrum not ready.")
+    g_conundrumFailed = [false, false, false, false, false,]
+    g_playerInControl = 0
+
+    Countdown.generateConundrum()
+    Countdown.initConundrumBoard()
+    let t: number = UPDATE_INTERVAL * 2
+    let puzzleWords: string[] = Countdown.getConundrumAsWords()
+    timer.after(t, () => {
+        Countdown.showConundrum(puzzleWords[0])
+    })
+    t += UPDATE_INTERVAL * 2
+    timer.after(t, () => {
+        Countdown.showConundrum(puzzleWords[0] + puzzleWords[1])
+    })
+    t += UPDATE_INTERVAL * 2
+    if (puzzleWords.length > 2) {
+        timer.after(t, () => {
+            Countdown.showConundrum(Countdown.getConundrum())
+        })
+        t += UPDATE_INTERVAL * 2
+    }
+    timer.after(t, () => {
+        Countdown.showConundrumInstructions()
+        if (g_stopwatch == null) {
+            g_stopwatch = new Stopwatch()
+        }
+        g_stopwatch.reset()
+        g_stopwatch.update()
+        g_stopwatch.x = 80
+        g_stopwatch.y = 6
+        g_stopwatch.start()
+        g_stopwatch.setFlag(SpriteFlag.Invisible, false)
+        g_gameMode = SpriteKind.ConundrumBoard
+        Melodies.playMainTheme()
+        console.log(`Solution: ${Countdown.getConundrumSolution()}`)
+    })
 }
 
 function beginLettersDeclare(): void {
@@ -129,6 +177,9 @@ function beginNextRound(): void {
     g_gameMode = SpriteKind.None
     switch (g_gameType.rounds[g_currentRound]) {
         case 'C':
+            g_stopwatch.reset()
+            g_stopwatch.setFlag(SpriteFlag.Invisible, true)
+            Countdown.clearConundrumBoard()
             break
         
         case 'L':
@@ -155,7 +206,6 @@ function beginNumbersDeclare(): void {
 }
 
 function beginNumbersRound(): void {
-    // game.splash("STOP","Numbers round not ready.")
     Countdown.startNumbersRound()
     Countdown.initNumbersBoard()
     Countdown.showNumberInstructions(g_playerInControl, NUMBERS_ROUND_INSTRUCTIONS)
@@ -218,8 +268,100 @@ function beginRound(): void {
     timer.after(5000, nextRound)
 }
 
-function endGame(): void {
+function checkConundrum(): void {
+    g_gameMode = SpriteKind.None
+    let soln: string = Countdown.getConundrumSolution()
+    let proposal: string = Countdown.getCurrConundrumSolution()
+    if (soln == proposal || WordLists.isWordValid(proposal)) {
+        music.play(music.melodyPlayable(music.magicWand), music.PlaybackMode.UntilDone)
+        Players.changeScoreBy(g_playerInControl, 10)
+        beginNextRound()
+    } else {
+        conundrumFail()
+    }
+}
 
+function conundrumDeleteLetter(player: number): void {
+    if (g_playerInControl != player && player != 1) {
+        return
+    }
+    if (g_playerInControl == player) {
+        Countdown.conundrumDeleteLast()
+        return
+    }
+    if (player == 1 && g_playerInControl > 1) {
+        // Kick current player out of conundrum
+        conundrumFail()
+        return
+    }
+    if (g_playerInControl == 0 && player == 1) {
+        // End conundrum round
+        if (Melodies.playing) {
+            Melodies.stopAll()
+        }
+        Countdown.clearConundrumInstructions()
+        g_conundrumReveal = Countdown.getConundrumSolution()
+        g_stopwatch.reset()
+        g_stopwatch.setFlag(SpriteFlag.Invisible, true)
+        g_conundrumRevealLetter = 0
+        g_nextUpdate = game.runtime() + UPDATE_INTERVAL * 2
+        g_gameMode = SpriteKind.ConundrumReveal
+        return
+    }
+}
+
+function conundrumFail(): void {
+    g_conundrumFailed[g_playerInControl] = true
+    music.play(music.melodyPlayable(music.buzzer), music.PlaybackMode.InBackground)
+    g_playerInControl = 0
+    Countdown.hideConundrumSolution()
+    g_stopwatch.start()
+    Countdown.showConundrumInstructions()
+    g_gameMode = SpriteKind.ConundrumBoard
+}
+
+function conundrumMove(player: number, delta: number): void {
+    if (g_playerInControl != player) {
+        return
+    }
+    Countdown.moveConundrumCursor(delta)
+}
+
+function conundrumRingIn(player: number): void {
+    if (g_playerInControl > 0 && player != g_playerInControl) {
+        return
+    }
+    if (player == g_playerInControl) {
+        conundrumSelectLetter()
+    } else {
+        if (g_conundrumFailed[player]) {
+            return
+        }
+        g_playerInControl = player
+        g_stopwatch.stop()
+        if (Melodies.playing) {
+            Melodies.stopAll()
+        }
+        music.play(music.melodyPlayable(music.powerUp), music.PlaybackMode.InBackground)
+        let instructions: string[] = []
+        instructions.push(CONUNDRUM_INSTRUCTIONS_FIRST + player)
+        for (let i of CONUNDRUM_INSTRUCTIONS_REST) {
+            instructions.push(i)
+        }
+        Countdown.showConundrumInstructions(instructions)
+        Countdown.enterConundrumSolution()
+    }
+}
+
+function conundrumSelectLetter(): void {
+    Countdown.conundrumAddSelected()
+    if (Countdown.getCurrConundrumSolution().length == 9) {
+        checkConundrum()
+    }
+}
+
+function endGame(): void {
+    game.splash("End of game!")
 }
 
 function runIntro(): void {
@@ -431,10 +573,67 @@ game.onUpdate(() => {
                 Countdown.updateNumbersScore()
             }
             break
+        
+        case SpriteKind.ConundrumReveal:
+            if (
+                g_conundrumRevealLetter < 9 &&
+                game.runtime() >= g_nextUpdate
+            ) {
+                g_nextUpdate = game.runtime() + UPDATE_INTERVAL
+                Countdown.showConundrumSolution(
+                    g_conundrumReveal.substr(0, g_conundrumRevealLetter + 1))
+                g_conundrumRevealLetter++
+                if (g_conundrumRevealLetter > 8) {
+                    Countdown.showConundrumInstructions(
+                        CONUNDRUM_INSTRUCTIONS_REVEALED
+                    )
+                }
+            }
+            break
+    }
+    if (g_stopwatch != null && g_stopwatch.getState()) {
+        g_stopwatch.update()
+        g_stopwatch.x = 80
     }
 })
 
 /**
  * Main
  */
-runIntro()
+keymap.setSystemKeys(0, 0, 0, 0)
+// runIntro()
+
+/*
+for (let i: number = 0; i < 10; i++) {
+    Countdown.generateConundrum()
+    let msg: string = Countdown.getConundrum() + " |"
+    for (let w of Countdown.getConundrumAsWords()) {
+        msg += " " + w
+    }
+    msg += " | " +
+        Countdown.getConundrumSolution()
+    console.log(msg)
+    loops.pause(1000)
+}
+*/
+
+Countdown.generateConundrum()
+for (let i: number = 1; i < 5; i++) {
+        Players.register(i)
+    if (i != 3) {
+    }
+}
+g_gameType = {
+    name: "Quick Game",
+    rounds: "LLNC",
+    time: 10
+}
+g_scoreMode = {
+    name: "Friendly",
+    desc: "Whatever"
+}
+g_currentRound = 3
+g_playerInControl = 2
+Tutorial.enable()
+g_gameMode = SpriteKind.None
+beginRound()

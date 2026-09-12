@@ -15,8 +15,7 @@ namespace SpriteKind {
     export const NumbersBoardSolve = SpriteKind.create()
     export const NumbersBoardScore = SpriteKind.create()
     export const ConundrumBoard = SpriteKind.create()
-    export const ConundrumBoardTimer = SpriteKind.create()
-    export const ConundrumBoardSolve = SpriteKind.create()
+    export const ConundrumReveal = SpriteKind.create()
 }
 
 /**

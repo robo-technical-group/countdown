@@ -41,6 +41,17 @@ namespace ButtonHandlers {
                 if (Countdown.updateNumberScoreDone() && player == 1) {
                     beginNextRound()
                 }
+                break
+            
+            case SpriteKind.ConundrumBoard:
+                conundrumRingIn(player)
+                break
+            
+            case SpriteKind.ConundrumReveal:
+                if (player == 1 && g_conundrumRevealLetter > 8) {
+                    beginNextRound()
+                }
+                break
         }
     }
 
@@ -56,6 +67,10 @@ namespace ButtonHandlers {
                 
             case SpriteKind.NumbersBoard:
                 addBig(player)
+                break
+            
+            case SpriteKind.ConundrumBoard:
+                conundrumDeleteLetter(player)
                 break
         }
     }
@@ -77,6 +92,10 @@ namespace ButtonHandlers {
             case SpriteKind.NumbersBoardSolve:
                 Countdown.moveNumberCursorMp(player, 0, 1)
                 break
+            
+            case SpriteKind.ConundrumBoard:
+                conundrumMove(player, 1)
+                break
         }
     }
 
@@ -96,6 +115,10 @@ namespace ButtonHandlers {
             
             case SpriteKind.NumbersBoardSolve:
                 Countdown.moveNumberCursorMp(player, -1, 0)
+                break
+            
+            case SpriteKind.ConundrumBoard:
+                conundrumMove(player, -1)
                 break
         }
     }
@@ -125,6 +148,10 @@ namespace ButtonHandlers {
             case SpriteKind.NumbersBoardSolve:
                 Countdown.moveNumberCursorMp(player, 1, 0)
                 break
+            
+            case SpriteKind.ConundrumBoard:
+                conundrumMove(player, 1)
+                break
         }
     }
 
@@ -145,6 +172,10 @@ namespace ButtonHandlers {
             case SpriteKind.NumbersBoardSolve:
                 Countdown.moveNumberCursorMp(player, 0, -1)
                 break
-       }
+             
+            case SpriteKind.ConundrumBoard:
+                conundrumMove(player, -1)
+                break
+      }
     }
 }

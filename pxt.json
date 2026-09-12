@@ -22,6 +22,8 @@
         "array.ts",
         "buttonhandlers.ts",
         "controllermp.ts",
+        "conundrum.ts",
+        "conundrumboard.ts",
         "enums.ts",
         "intro.ts",
         "letterboard.ts",
@@ -41,6 +43,8 @@
         "roundsplash.ts",
         "setup.ts",
         "splash.ts",
+        "stopwatch.ts",
+        "string.ts",
         "tutorial.ts",
         "wordlists.ts"
     ],
