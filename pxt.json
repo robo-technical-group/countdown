@@ -1,6 +1,6 @@
 {
     "name": "countdown",
-    "version": "0.0.4",
+    "version": "1.0.0",
     "dependencies": {
         "device": "*",
         "Timers": "github:microsoft/arcade-timers#v1.1.0",
