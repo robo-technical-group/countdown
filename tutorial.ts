@@ -41,12 +41,12 @@ namespace Tutorial {
     const PERSIST_KEY_PREFIX: string = 'TUTORIAL_PERSIST_'
     const TEXT: string[] = [
         // Enabled: Player 1 reminder.
-        'Player 1: Remember that you are in control of the tutorials.\n \n' +
+        'Player 1: Remember that you are in control of the tutorials.\n' +
         'Player 1, press A to continue.',
 
         // First
         'TUTORIAL MODE ENABLED\n \nPlayer 1 should read the tutorials aloud to the other players.\n \n' +
-        'Player 1 controls the tutorials. Player 1, press your A button to continue. \n \n' +
+        'Player 1 controls the tutorials. Player 1, press your A button to continue.\n \n' +
         'You can enable and disable the tutorials from the system menu by selecting the Menu button.',
 
         // Welcome
@@ -64,7 +64,7 @@ namespace Tutorial {
         'You will create a puzzle board and then look for the longest word.',
 
         // First Letters B
-        "At the top of the screen is the letter board. Right now, it's empty.\n \n" +
+        "At the top of the screen is the letter board. Right now, it's empty. " +
         'The player in control will create the puzzle.',
 
         // First Letters C
@@ -120,7 +120,7 @@ namespace Tutorial {
         'You will create a puzzle board and then try to calculate a target value.',
 
         // First Numbers B
-        "At the top of the screen is the number board. Right now, it's empty.\n \n" +
+        "At the top of the screen is the number board. Right now, it's empty. " +
         'The player in control will create the puzzle.',
 
         // First Numbers C
@@ -169,7 +169,7 @@ namespace Tutorial {
         'Lock in your bids now!',
 
         // First Numbers Solve A
-        "It's time to enter your solution!\n \n" +
+        "It's time to enter your solution!\n" +
         'Move the cursor with your D-pad and A to select. ' +
         'For each calculation in your sequence, ' +
         'select the first number, then an operator, ' +
@@ -178,7 +178,7 @@ namespace Tutorial {
         'will appear as a new tile. ' +
         'When you reach your bid, your solution will ' +
         'automatically lock in. You also can lock in your ' +
-        'solution by selecting the = operator.\n \n' +
+        'solution by selecting the = operator.\n' +
         'As a reminder, your bid appears in parentheses. ',
 
         // First Numbers Solve B
@@ -191,7 +191,29 @@ namespace Tutorial {
         'If your solution is valid, ' +
         'you earn 10 points if you hit the target exactly, ' +
         '7 points if you are +/- 5 of the target, and ' +
-        '5 points if you are +/- 10 of the target.'
+        '5 points if you are +/- 10 of the target.',
+
+        // First Conundrum
+        'Welcome to the final round: The conundrum! ' +
+        'The conundrum is a two- or three-word phrase ' +
+        'which is an anagram for a nine-letter word. ' +
+        'When you have solved the conundrum, buzz in ' +
+        'by pressing A and solve it like any other ' +
+        'letter round. There is no DONE button, ' +
+        'so you MUST enter a nine-letter word. ' +
+        'If you get it wrong, you lock yourself ' +
+        'out for the round. Get it right, and you ' +
+        'earn 10 points!\n' +
+        'In the game show, you get 30 seconds ' +
+        'to solve the conundrum. ' +
+        'Here, instead, Player 1 is in control. ' +
+        'Player 1, please read the conundrum outloud ' +
+        'for everyone as it appears on the screen. ' +
+        'Also, you can both end the conundrum round ' +
+        "and also fail a person's solve by pressing " +
+        'B.\n' +
+        'The conundrum starts now. ' +
+        'Good luck!',
     ]
 
     export function areEnabled(): boolean {
@@ -321,6 +343,6 @@ namespace Tutorial {
     }
 
     export function conundrum(): void {
-        
+        show(Tutorial.FirstConundrum, DialogLayout.Bottom)
     }
 }

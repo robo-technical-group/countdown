@@ -108,6 +108,7 @@ function beginConundrum(): void {
 
     Countdown.generateConundrum()
     Countdown.initConundrumBoard()
+    Tutorial.conundrum()
     let t: number = UPDATE_INTERVAL * 2
     let puzzleWords: string[] = Countdown.getConundrumAsWords()
     timer.after(t, () => {
