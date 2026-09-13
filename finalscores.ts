@@ -15,6 +15,7 @@ namespace Countdown {
     let highScoreFinished: boolean = false
     let highScoreKey: string = ""
     let highScoreLastY: number = 0
+    let newHighScore: number = 0
     let nextScore: number = 0
     let playerOrder: number[] = []
 
@@ -29,6 +30,7 @@ namespace Countdown {
             g_gameType.name.charAt(0) + "_" +
             g_scoreMode.name.charAt(0) + "_" +
             Players.numPlayers().toString()
+        newHighScore = -1
         if (!settings.exists(highScoreKey)) {
             settings.writeNumber(highScoreKey, -1)
         }
@@ -123,6 +125,7 @@ namespace Countdown {
                                 70, highScoreLastY
                             )
                             if (Players.score(player) > currHighScore && currHighScorePlayer == 0) {
+                                newHighScore = Players.score(player)
                                 sendText(HIGH_SCORE_INDICATOR,
                                     fancyText.bold_sans_7,
                                     Players.accentColor(player),
@@ -150,6 +153,10 @@ namespace Countdown {
                     break
                 
                 case 5:
+                    // Save high score
+                    if (newHighScore > -1) {
+                        settings.writeNumber(highScoreKey, newHighScore)
+                    }
                     updated = true
                     highScoreFinished = true
                     break
