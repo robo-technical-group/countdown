@@ -4,7 +4,7 @@ namespace Countdown {
         "Press A for new game",
     ]
     const HIGH_SCORE_INDICATOR: string = "High score!"
-    const HIGH_SCORE_LABEL: string = "Current High Score"
+    const HIGH_SCORE_LABEL: string = "High Score"
     const HIGH_SCORE_PLAYER: string = "Player "
     const HIGH_SCORE_SETTINGS_PREFIX: string = "HIGH_SCORE_"
     const HIGH_SCORE_TITLE: string = "Final Scores"
