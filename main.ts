@@ -176,6 +176,14 @@ function beginLettersSolve(): void {
     Tutorial.lettersRoundSolve()
 }
 
+function beginNewGame(): void {
+    Countdown.clearFinalScores()
+    for (let i: number = 1; i < 5; i++) {
+        Players.unregister(i)
+    }
+    runSetup()
+}
+
 function beginNextRound(): void {
     g_gameMode = SpriteKind.None
     switch (g_gameType.rounds[g_currentRound]) {

@@ -52,6 +52,12 @@ namespace ButtonHandlers {
                     beginNextRound()
                 }
                 break
+            
+            case SpriteKind.FinalScores:
+                if (player == 1 && Countdown.allScoresRevealed()) {
+                    beginNewGame()
+                }
+                break
         }
     }
 

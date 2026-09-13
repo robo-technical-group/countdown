@@ -36,12 +36,18 @@ namespace Players {
             return
         }
 
-        // music.play(music.melodyPlayable(music.jumpUp), music.PlaybackMode.InBackground)
         registered[player] = true
         if (registeredPlayers.length > 0) {
             registeredPlayers = []
         }
         setScore(player, 0)
+    }
+
+    export function unregister(player: number): void {
+        registered[player] = false
+        if (registeredPlayers.length > 0) {
+            registeredPlayers = []
+        }
     }
 
     export function changeScoreBy(player: number, delta: number): void {
