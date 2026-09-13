@@ -104,7 +104,7 @@ namespace Countdown {
                         if (playerOrder[currHighScorePlayer] == 0) {
                             if (currHighScore > -1) {
                                 highScoreLastY += 12
-                                sendText(HIGH_SCORE_LABEL, fancyText.bold_sans_7, Color.Yellow, 40, highScoreLastY)
+                                sendText(HIGH_SCORE_LABEL, fancyText.bold_sans_7, Color.Yellow, 30, highScoreLastY)
                                 sendText(currHighScore.toString(), fancyText.bold_sans_7, Color.Yellow, 70, highScoreLastY)
                                 updated = true
                             }
@@ -115,7 +115,7 @@ namespace Countdown {
                             sendText(HIGH_SCORE_PLAYER + player,
                                 fancyText.bold_sans_7,
                                 Players.accentColor(player),
-                                40, highScoreLastY
+                                30, highScoreLastY
                             )
                             sendText(Players.score(player).toString(),
                                 fancyText.bold_sans_7,

@@ -4,6 +4,8 @@
  */
 namespace Countdown {
     const DONE_TEXT: string = "Done"
+    const LETTER_PANEL_LEFTS: number[] = [0, 0, 80, 0, 80,]
+    const LETTER_PANEL_TOPS: number[] = [0, 0, 0, 60, 60,]
     const LETTER_SOLVE_MP_INSTRUCTIONS = "A=Select B=Delete"
 
     let doneButtons: TextSprite[] = []
@@ -24,8 +26,8 @@ namespace Countdown {
 
     export function addLetterMp(player: number): void {
         let t: TextSprite = letterSolveTiles[player][selectedLetters[player]]
-        if (t.fg != Color.Black) {
-            t.fg = Color.Black
+        if (t.fg != t.bg) {
+            t.fg = t.bg
             t.update()
             letterSolutions[player] += t.text
             updateAnswerSpriteLetterMp(player)
@@ -36,18 +38,20 @@ namespace Countdown {
         letterFinalized = [false, false, false, false, false,]
         letterSolutions = ["", "", "", "", "",]
         selectedLetters = [0, 0, 0, 0, 0,]
+        let numPlayers: number = Players.numPlayers()
         clearLetterSolveMpBoard()
-        if (Players.isRegistered(1)) {
-            drawLetterSolvePanel(0, 0, 1)
-        }
-        if (Players.isRegistered(2)) {
-            drawLetterSolvePanel(80, 0, 2)
-        }
-        if (Players.isRegistered(3)) {
-            drawLetterSolvePanel(0, 60, 3)
-        }
-        if (Players.isRegistered(4)) {
-            drawLetterSolvePanel(80, 60, 4)
+        for (let p: number = 1; p < 5; p++) {
+            if (Players.isRegistered(p)) {
+                if (numPlayers == 1) {
+                    drawLetterSolvePanelSingle(p)
+                } else {
+                    drawLetterSolvePanel(
+                        LETTER_PANEL_LEFTS[p],
+                        LETTER_PANEL_TOPS[p],
+                        p
+                    )
+                }
+            }
         }
         drawLetterSolveMpInstructions()
     }
@@ -69,8 +73,8 @@ namespace Countdown {
             letterSolutions[player].substr(0, letterSolutions[player].length - 1)
         updateAnswerSpriteLetterMp(player)
         for (let t of letterSolveTiles[player]) {
-            if (t.fg == Color.Black && t.text == deleted) {
-                t.fg = accentColor
+            if (t.fg == t.bg && t.text == deleted) {
+                t.fg = Players.numPlayers() == 1 ? Color.Yellow : accentColor
                 t.update()
                 break
             }
@@ -130,6 +134,51 @@ namespace Countdown {
         updateAnswerSpriteLetterMp(player)
     }
 
+    function drawLetterSolvePanelSingle(player: number): void {
+        let puzzle: string = Countdown.getLetterPuzzle()
+
+        let x: number = 80
+        let y: number = 20
+        let pft: fancyText.TextSprite = fancyText.create(
+            `Player ${player}`,
+            null, Color.White, fancyText.bold_sans_7
+        )
+        pft.setPosition(x, y)
+        pft.setKind(SpriteKind.LettersBoardSolve)
+
+        y += 20
+        let done: TextSprite = textsprite.create(DONE_TEXT, Color.Blue, Color.Yellow)
+        done.setMaxFontHeight(5)
+        done.setBorder(1, Color.Blue)
+        done.setPosition(x, y)
+        done.setKind(SpriteKind.LettersBoardSolve)
+        doneButtons[player] = done
+
+        x = 8
+        y += 12
+        for (let c of puzzle) {
+            let ts: TextSprite = textsprite.create(c, Color.Blue, Color.Yellow)
+            ts.setMaxFontHeight(10)
+            ts.setBorder(1, Color.Blue)
+            ts.setPosition(x, y)
+            ts.setKind(SpriteKind.LettersBoardSolve)
+            letterSolveTiles[player].push(ts)
+            x += 18
+        }
+        selectedLetters[player] = 0
+        highlightLetterMp(player, selectedLetters[player], true)
+
+        x = 80
+        y += 20
+        let soln: TextSprite = textsprite.create("", 0, Color.LightBlue)
+        soln.setMaxFontHeight(10)
+        soln.setPosition(x, y)
+        soln.setKind(SpriteKind.LettersBoardSolve)
+        solnSprites[player] = soln
+        letterSolutions[player] = ""
+        updateAnswerSpriteLetterMp(player)
+    }
+
     function finalizeAnswer(player: number): void {
         letterFinalized[player] = true
         doneButtons[player].setFlag(SpriteFlag.Invisible, true)
@@ -149,13 +198,21 @@ namespace Countdown {
     function highlightDoneLetterMp(player: number, highlightOn: boolean): void {
         let accentColor: number = Players.accentColor(player)
         let d: TextSprite = doneButtons[player]
-        d.borderColor = highlightOn ? Color.White : accentColor
+        if (Players.numPlayers() == 1) {
+            d.borderColor = highlightOn ? Color.White : Color.Blue
+        } else {
+            d.borderColor = highlightOn ? Color.White : accentColor
+        }
         d.update()
     }
 
     function highlightLetterMp(player: number, index: number, highlightOn: boolean): void {
         let t: TextSprite = letterSolveTiles[player][index]
-        t.borderColor = highlightOn ? Color.White : Color.Black
+        if (Players.numPlayers() == 1) {
+            t.borderColor = highlightOn ? Color.White : Color.Blue
+        } else {
+            t.borderColor = highlightOn ? Color.White : Color.Black
+        }
         t.update()
     }
 
@@ -165,15 +222,17 @@ namespace Countdown {
         }
 
         if (vDelta == 0) {
-            highlightLetterMp(player, selectedLetters[player], false)
-            selectedLetters[player] += hDelta
-            if (selectedLetters[player] > 8) {
-                selectedLetters[player] = 0
+            if (!onDoneLetterMp(player)) {
+                highlightLetterMp(player, selectedLetters[player], false)
+                selectedLetters[player] += hDelta
+                if (selectedLetters[player] > 8) {
+                    selectedLetters[player] = 0
+                }
+                if (selectedLetters[player] < 0) {
+                    selectedLetters[player] = 8
+                }
+                highlightLetterMp(player, selectedLetters[player], true)
             }
-            if (selectedLetters[player] < 0) {
-                selectedLetters[player] = 8
-            }
-            highlightLetterMp(player, selectedLetters[player], true)
         } else {
             if (onDoneLetterMp(player)) {
                 moveCursorMpToLetters(player)
@@ -212,7 +271,11 @@ namespace Countdown {
     function updateAnswerSpriteLetterMp(player: number): void {
         let s: TextSprite = solnSprites[player]
         s.setText(letterSolutions[player])
-        s.x = 40 + 80 * ((player + 1) % 2)
+        if (Players.numPlayers() == 1) {
+            s.x = 80
+        } else {
+            s.x = 40 + 80 * ((player + 1) % 2)
+        }
         s.update()
     }
 

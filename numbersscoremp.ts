@@ -34,7 +34,11 @@ namespace Countdown {
         numberClosestSolution = 999
         numberScoreCurrentColumn = 0
         numberScoreCurrentPlayer = 1
-        numberScoreBidsValid = [false, false, false, false, false,]
+        if (Players.numPlayers() == 1) {
+            numberScoreBidsValid = [false, true, true, true, true,]
+        } else {
+            numberScoreBidsValid = [false, false, false, false, false,]
+        }
         numberSolutions = [0, 0, 0, 0, 0,]
         numberScores = [0, 0, 0, 0, 0,]
         numberScoreUpdateDone = false
@@ -42,13 +46,6 @@ namespace Countdown {
     }
 
     function buildNumbersSolution(): void {
-        /*
-        numberSolutionSprite = fancyText.create(
-            NUMBER_SOLUTION_HEADER +
-                "\nLine1\nLine2\nLine3\nLine4\n1000 x 100 = 100000",
-            null, Color.Yellow, fancyText.bold_sans_7
-        )
-        */
         numberSolutionSprite = fancyText.create(
             NUMBER_SOLUTION_HEADER +
                 "\n" + Countdown.getNumbersSolution(),
@@ -87,13 +84,16 @@ namespace Countdown {
 
     function createNumbersScoreHeaders(top: number): void {
         for (let i: number = 0; i < NUMBER_SCORE_HEADERS.length; i++) {
-            let _: TextSprite =
-                createNumbersScoreTextSprite(
-                    NUMBER_SCORE_HEADERS[i],
-                    Color.White,
-                    NUMBER_SCORE_LEFTS[i] - NUMBER_SCORE_HEADER_OFFSETS[i],
-                    top, true
-                )
+            let t: string = NUMBER_SCORE_HEADERS[i]
+            if (Players.numPlayers() != 1 || t != "Bid") {
+                let _: TextSprite =
+                    createNumbersScoreTextSprite(
+                        t,
+                        Color.White,
+                        NUMBER_SCORE_LEFTS[i] - NUMBER_SCORE_HEADER_OFFSETS[i],
+                        top, true
+                    )
+            }
         }
     }
 
@@ -156,6 +156,9 @@ namespace Countdown {
             bid > 0 &&
             bid == solution
         )
+        if (Players.numPlayers() == 1) {
+            bidValid = true
+        }
         numberScoreBidsValid[player] = bidValid
         let bidValidSprite: Sprite = createNumbersScoreSprite(
             bidValid ?
@@ -213,7 +216,9 @@ namespace Countdown {
                 case 0:
                     if (Players.isRegistered(numberScoreCurrentPlayer)) {
                         numberScoreSolutionSprites[numberScoreCurrentPlayer].setFlag(SpriteFlag.Invisible, false)
-                        numberScoreBidSprites[numberScoreCurrentPlayer].setFlag(SpriteFlag.Invisible, false)
+                        if (Players.numPlayers() > 1) {
+                            numberScoreBidSprites[numberScoreCurrentPlayer].setFlag(SpriteFlag.Invisible, false)
+                        }
                         updated = true
                     }
                     break
@@ -227,7 +232,9 @@ namespace Countdown {
                 
                 // Bid valid
                 case 2:
-                    if (Players.isRegistered(numberScoreCurrentPlayer)) {
+                    if (Players.numPlayers() == 1) {
+                        numberScoreCurrentPlayer = 99
+                    } else if (Players.isRegistered(numberScoreCurrentPlayer)) {
                         numberScoreBidValidSprites[numberScoreCurrentPlayer].setFlag(SpriteFlag.Invisible, false)
                         if (numberScoreBidsValid[numberScoreCurrentPlayer]) {
                             music.play(music.melodyPlayable(music.baDing), music.PlaybackMode.InBackground)

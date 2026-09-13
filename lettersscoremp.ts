@@ -88,13 +88,16 @@ namespace Countdown {
 
     function createLettersScoreHeaders(top: number): void {
         for (let i: number = 0; i < LETTER_SCORE_HEADERS.length; i++) {
-            let _: TextSprite =
-                createLettersScoreTextSprite(
-                    LETTER_SCORE_HEADERS[i],
-                    Color.White,
-                    LETTER_SCORE_LEFTS[i] - LETTER_SCORE_HEADER_OFFSETS[i],
-                    top, true
-                )
+            let t: string = LETTER_SCORE_HEADERS[i]
+            if (Players.numPlayers() != 1 || t != "Bid") {
+                let _: TextSprite =
+                    createLettersScoreTextSprite(
+                        t,
+                        Color.White,
+                        LETTER_SCORE_LEFTS[i] - LETTER_SCORE_HEADER_OFFSETS[i],
+                        top, true
+                    )
+            }
         }
     }
 
@@ -139,7 +142,11 @@ namespace Countdown {
         )
         letterScorePlayerWords[player] = word
 
-        letterScoreBids[player] = Countdown.getLetterBid(player) == playerSolution.length
+        if (Players.numPlayers() == 1) {
+            letterScoreBids[player] = true
+        } else {
+            letterScoreBids[player] = Countdown.getLetterBid(player) == playerSolution.length
+        }
         let bidText: TextSprite = createLettersScoreTextSprite(
             Countdown.getLetterBid(player).toString(),
             accentColor, LETTER_SCORE_LEFTS[2], top, false
@@ -203,11 +210,13 @@ namespace Countdown {
         let updated: boolean = false
         while (!updated) {
             switch (letterScoreCurrentColumn) {
-                // Player word
+                // Player & word
                 case 0:
                     if (Players.isRegistered(letterScoreCurrentPlayer)) {
                         letterScorePlayerWords[letterScoreCurrentPlayer].setFlag(SpriteFlag.Invisible, false)
-                        letterScoreBidTextSprites[letterScoreCurrentPlayer].setFlag(SpriteFlag.Invisible, false)
+                        if (Players.numPlayers() > 1) {
+                            letterScoreBidTextSprites[letterScoreCurrentPlayer].setFlag(SpriteFlag.Invisible, false)
+                        }
                         updated = true
                     }
                     break
@@ -221,7 +230,9 @@ namespace Countdown {
                 
                 // Bid valid
                 case 2:
-                    if (Players.isRegistered(letterScoreCurrentPlayer)) {
+                    if (Players.numPlayers() == 1) {
+                        letterScoreCurrentPlayer = 99
+                    } else if (Players.isRegistered(letterScoreCurrentPlayer)) {
                         letterScoreBidSprites[letterScoreCurrentPlayer].setFlag(SpriteFlag.Invisible, false)
                         if (letterScoreBids[letterScoreCurrentPlayer]) {
                             music.play(music.melodyPlayable(music.baDing), music.PlaybackMode.InBackground)

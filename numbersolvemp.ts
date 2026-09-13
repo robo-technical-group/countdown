@@ -15,6 +15,8 @@ namespace Countdown {
         rhs: number
     }
 
+    const NUMBER_PANEL_LEFTS: number[] = [0, 0, 80, 0, 80,]
+    const NUMBER_PANEL_TOPS: number[] = [0, 0, 0, 55, 55,]
     const NUMBER_SOLVE_MP_INSTRUCTIONS = "Choose = when done"
     const OPERATIONS: string[] = ["+", "-", "x", "/", "="]
 
@@ -42,18 +44,20 @@ namespace Countdown {
         numberSolutions = [0, -1, -1, -1, -1,]
         selectedNumbers = [0, 0, 0, 0, 0,]
         selectedOperations = [0, 0, 0, 0, 0,]
+        let numPlayers: number = Players.numPlayers()
         clearNumbersSolveMpBoard()
-        if (Players.isRegistered(1)) {
-            drawNumbersSolvePanel(0, 0, 1)
-        }
-        if (Players.isRegistered(2)) {
-            drawNumbersSolvePanel(80, 0, 2)
-        }
-        if (Players.isRegistered(3)) {
-            drawNumbersSolvePanel(0, 55, 3)
-        }
-        if (Players.isRegistered(4)) {
-            drawNumbersSolvePanel(80, 55, 4)
+        for (let p: number = 1; p < 5; p++) {
+            if (Players.isRegistered(p)) {
+                if (numPlayers == 1) {
+                    drawNumbersSolvePanelSingle(p)
+                } else {
+                    drawNumbersSolvePanel(
+                        NUMBER_PANEL_LEFTS[p],
+                        NUMBER_PANEL_TOPS[p],
+                        p
+                    )
+                }
+            }
         }
         drawNumberSolveMpInstructions()
     }
@@ -131,7 +135,7 @@ namespace Countdown {
         for (let i: number = 0; i < p.length; i++) {
             let n: number = p[i]
             let s: TextSprite = textsprite.create(
-                numToString(n), Color.Black, accentColor
+                numToStringSolve(n), Color.Black, accentColor
             )
             s.setMaxFontHeight(5)
             s.setBorder(1, Color.Black)
@@ -148,6 +152,80 @@ namespace Countdown {
             } else {
                 x += s.width + 1
             }
+        }
+    }
+
+    function drawNumbersSolvePanelSingle(player: number): void {
+        let targetTile: TextSprite = textsprite.create(
+            Countdown.getTarget().toString(),
+            Color.Blue, Color.White
+        )
+        targetTile.maxFontHeight = 12
+        targetTile.setBorder(1, Color.Aqua, 2)
+        targetTile.setPosition(80, 20)
+        targetTile.setKind(SpriteKind.NumbersBoardSolve)
+
+        let calc: Calculation = {
+            lhs: -1,
+            op: -1,
+            rhs: -1,
+        }
+        currCalculations[player] = calc
+
+        let x: number = 80
+        let y: number = 40
+        let pft: fancyText.TextSprite = fancyText.create(
+            `Player ${player}`,
+            null, Color.White, fancyText.bold_sans_7
+        )
+        pft.setPosition(x, y)
+        pft.setKind(SpriteKind.NumbersBoardSolve)
+
+        y += 20
+        let c: fancyText.TextSprite = fancyText.create(
+            " ",
+            null, Color.White, fancyText.bold_sans_7
+        )
+        c.y = y
+        c.setKind(SpriteKind.NumbersBoardSolve)
+        currCalcSprites[player] = c
+        updateCurrCalcSprite(player)
+
+        x = 45
+        y += 15
+        operationsSprites[player] = []
+        for (let o of OPERATIONS) {
+            let s: TextSprite = textsprite.create(
+                o, Color.Black, Color.Yellow
+            )
+            s.setMaxFontHeight(8)
+            s.setBorder(1, Color.Blue)
+            s.left = x
+            s.y = y
+            s.setKind(SpriteKind.NumbersBoardSolve)
+            operationsSprites[player].push(s)
+            x += 15
+        }
+
+        x = 17
+        y += 15
+        numberSolveSprites[player] = []
+        let p: number[] = Countdown.getNumberPuzzle()
+        for (let i: number = 0; i < p.length; i++) {
+            let n: number = p[i]
+            let s: TextSprite = textsprite.create(
+                numToStringSolve(n), Color.Blue, Color.Yellow
+            )
+            s.setMaxFontHeight(8)
+            s.setBorder(1, Color.Blue)
+            s.left = x
+            s.y = y
+            s.setKind(SpriteKind.NumbersBoardSolve)
+            numberSolveSprites[player].push(s)
+            if (i == 0) {
+                highlightNumberSolveSprite(s, true)
+            }
+            x += s.width + 1
         }
     }
 
@@ -172,15 +250,20 @@ namespace Countdown {
     }
 
     function highlightNumberSolveSprite(ts: TextSprite, highlightOn: boolean): void {
-        ts.borderColor =
-            highlightOn ? Color.White : Color.Black
+        if (Players.numPlayers() == 1) {
+            ts.borderColor =
+                highlightOn ? Color.White : Color.Blue
+        } else {
+            ts.borderColor =
+                highlightOn ? Color.White : Color.Black
+        }
         ts.update()
     }
 
     export function moveNumberCursorMp(player: number, hDelta: number, vDelta: number): void {
         let currLocation: NumberRoundLocation = currLocations[player]
         if (vDelta != 0) {
-            if (currLocation == NumberRoundLocation.Operator) {
+            if (currLocation == NumberRoundLocation.Operator || Players.numPlayers() == 1) {
                 hDelta = vDelta
             } else {
                 hDelta = vDelta * 3
@@ -249,19 +332,15 @@ namespace Countdown {
         highlightNumberSolveSprite(o, true)
     }
 
-    function numToString(n: number): string {
+    function numToStringSolve(n: number): string {
         let t: string = n.toString()
         switch (t.length) {
             case 1:
-                t = "  " + t + " "
-                break
-            
-            case 2:
                 t = " " + t + " "
                 break
             
-            case 3:
-                t += " "
+            case 2:
+                t = " " + t
                 break
         }
         return t
@@ -331,7 +410,7 @@ namespace Countdown {
                     music.play(music.melodyPlayable(music.baDing), music.PlaybackMode.InBackground)
                     finalizeSolution(player, calc)
                 } else {
-                    ts.setText(numToString(calc))
+                    ts.setText(numToStringSolve(calc))
                     currCalc.lhs = currCalc.op = currCalc.rhs = -1
                     updateCurrCalcSprite(player)
                     currLocations[player] = NumberRoundLocation.LeftNumber
@@ -351,7 +430,11 @@ namespace Countdown {
         }
         let f: fancyText.TextSprite = currCalcSprites[player]
         f.setText(t)
-        f.x = 40 + 80 * ((player + 1) % 2)
+        if (Players.numPlayers() == 1) {
+            f.x = 80
+        } else {
+            f.x = 40 + 80 * ((player + 1) % 2)
+        }
     }
 
     export function numberSolveMpTest(): void {

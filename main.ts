@@ -171,13 +171,9 @@ function beginLettersScore(): void {
 }
 
 function beginLettersSolve(): void {
-    if (Players.numPlayers() > 1) {
-        Countdown.clearLetterBidBoard()
-        Countdown.beginLetterSolveMp()
-        Tutorial.lettersRoundSolve()
-    } else {
-        // Single player will use letters board in solve mode.
-    }
+    Countdown.clearLetterBidBoard()
+    Countdown.beginLetterSolveMp()
+    Tutorial.lettersRoundSolve()
 }
 
 function beginNextRound(): void {
@@ -230,13 +226,9 @@ function beginNumbersScore(): void {
 }
 
 function beginNumbersSolve(): void {
-    if (Players.numPlayers() > 1) {
-        Countdown.clearNumberDeclareBoard()
-        Countdown.beginNumbersSolveMp()
-        Tutorial.numbersRoundSolve()
-    } else {
-        // Single player will use numbers board in solve mode.
-    }
+    Countdown.clearNumberDeclareBoard()
+    Countdown.beginNumbersSolveMp()
+    Tutorial.numbersRoundSolve()
 }
 
 function beginRound(): void {
@@ -512,9 +504,11 @@ game.onUpdate(() => {
         case SpriteKind.LettersBoardTimer:
             if (info.countdown() == 0 && !Melodies.playing()) {
                 g_gameMode = SpriteKind.None
+                Countdown.clearLettersBoard()
                 if (Players.numPlayers() == 1) {
+                    beginLettersSolve()
+                    g_gameMode = SpriteKind.LettersBoardSolve
                 } else {
-                    Countdown.clearLettersBoard()
                     beginLettersDeclare()
                     g_gameMode = SpriteKind.LettersBoardDeclare
                 }
@@ -548,9 +542,11 @@ game.onUpdate(() => {
             Countdown.nextNumberSolveStep()
             if (info.countdown() == 0 && !Melodies.playing()) {
                 g_gameMode = SpriteKind.None
+                Countdown.clearNumbersBoard()
                 if (Players.numPlayers() == 1) {
+                    beginNumbersSolve()
+                    g_gameMode = SpriteKind.NumbersBoardSolve
                 } else {
-                    Countdown.clearNumbersBoard()
                     beginNumbersDeclare()
                     g_gameMode = SpriteKind.NumbersBoardDeclare
                 }
