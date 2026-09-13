@@ -27,7 +27,8 @@ namespace Countdown {
         playerOrder = [0,] // 0 represents the current high score.
         highScoreKey = HIGH_SCORE_SETTINGS_PREFIX +
             g_gameType.name.charAt(0) + "_" +
-            g_scoreMode.name.charAt(0)
+            g_scoreMode.name.charAt(0) + "_" +
+            Players.numPlayers().toString()
         if (!settings.exists(highScoreKey)) {
             settings.writeNumber(highScoreKey, -1)
         }
