@@ -41,10 +41,17 @@ namespace Players {
             registeredPlayers = []
         }
         setScore(player, 0)
+        setScoreVisible(player, true)
     }
 
     export function unregister(player: number): void {
+        if (!registered[player]) {
+            return
+        }
+        
         registered[player] = false
+        setScore(player, 0)
+        setScoreVisible(player, false)
         if (registeredPlayers.length > 0) {
             registeredPlayers = []
         }
@@ -68,6 +75,7 @@ namespace Players {
                 info.player4.changeScoreBy(delta)
                 break
         }
+        setScoreVisible(player, true)
     }
 
     export function getNextPlayer(currentPlayer: number): number {
@@ -134,6 +142,31 @@ namespace Players {
 
             case 4:
                 info.player4.setScore(score)
+                break
+        }
+        setScoreVisible(player, true)
+    }
+
+    function setScoreVisible(player: number, isVisible: boolean): void {
+        switch (player) {
+            case 1:
+                info.player1.showPlayer = isVisible
+                info.player1.showScore = isVisible
+                break
+            
+            case 2:
+                info.player2.showPlayer = isVisible
+                info.player2.showScore = isVisible
+                break
+            
+            case 3:
+                info.player3.showPlayer = isVisible
+                info.player3.showScore = isVisible
+                break
+            
+            case 4:
+                info.player4.showPlayer = isVisible
+                info.player4.showScore = isVisible
                 break
         }
     }
