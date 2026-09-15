@@ -146,6 +146,7 @@ beginRound()
 
 /**
  * Timing tests.
+game.stats = true
 const TOTAL_NUM_TESTS: number = 20
 let currNumTest: number = 0
 let numTests: number[] = []
@@ -221,6 +222,7 @@ game.onUpdate(() => {
         case 2:
             if (Countdown.isNumbersSolved()) {
                 finishTest("Numbers round solve")
+                console.log(`Calculations: ${Countdown.getCalculations()}`)
                 testMode = 0
                 numTests.push(testEndTime - testBeginTime)
                 startNextNumberTest()

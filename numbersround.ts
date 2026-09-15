@@ -13,9 +13,9 @@ namespace Countdown {
         target: number
         solution: Value
         allSolutions: Value[]
-        // ready: boolean
         started: boolean
         solved: boolean
+        calculations: number
     }
 
     class Value {
@@ -149,6 +149,13 @@ namespace Countdown {
         addNumber(getNextSmall())
     }
 
+    export function getCalculations(): number {
+        if (currNumbersRound == null) {
+            return 0
+        }
+        return currNumbersRound.calculations
+    }
+
     export function getCurrNumber(): number {
         return currNumber
     }
@@ -228,9 +235,9 @@ namespace Countdown {
             target: 0,
             solution: null,
             allSolutions: [],
-            // ready: false,
             started: false,
             solved: false,
+            calculations: 0,
         }
         numBigs = 0
         numSmalls = 0
@@ -265,6 +272,7 @@ namespace Countdown {
         for (let i: number = 0; i < values.length - 1; i++) {
             for (let j: number = i + 1; j < values.length; j++) {
                 solveInnerLoop(values, n, i, j)
+                n.calculations++
             }
         }
     }
