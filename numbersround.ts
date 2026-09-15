@@ -16,6 +16,7 @@ namespace Countdown {
         started: boolean
         solved: boolean
         calculations: number
+        verbose: boolean
     }
 
     class Value {
@@ -221,6 +222,13 @@ namespace Countdown {
         }
     }
 
+    export function setVerbose(value: boolean): void {
+        if (currNumbersRound == null) {
+            return
+        }
+        currNumbersRound.verbose = value
+    }
+
     export function startNumbersRound(): void {
         if (smalls.length == 0) {
             initNumbersArrays()
@@ -238,6 +246,7 @@ namespace Countdown {
             started: false,
             solved: false,
             calculations: 0,
+            verbose: false,
         }
         numBigs = 0
         numSmalls = 0
@@ -325,7 +334,9 @@ namespace Countdown {
 
     export function initNumbersRoundSolve(): void {
         let n: NumbersRound = currNumbersRound
-        console.log(`Init started ${game.runtime()}.`)
+        if (n.verbose) {
+            console.log(`Init started ${game.runtime()}.`)
+        }
         asyncValues = n.nums.map((num: number, index: number) => new Value(num))
         n.solution = asyncValues[0]
         n.started = true
@@ -339,7 +350,7 @@ namespace Countdown {
     export function nextNumberSolveStep(): void {
         let n: NumbersRound = currNumbersRound
         if (n.solved) {
-            if (!finalLog) {
+            if (n.verbose && !finalLog) {
                 console.log(`Solved @ ${game.runtime()}.`)
                 finalLog = true
             }
@@ -350,7 +361,9 @@ namespace Countdown {
             return
         }
         if (currValue < asyncValues.length) {
-            console.log(`Consider pass ${currValue} started @ ${game.runtime()}.`)
+            if (n.verbose) {
+                console.log(`Consider pass ${currValue} started @ ${game.runtime()}.`)
+            }
             consider(asyncValues[currValue], n)
             currValue++
         } else {
@@ -359,18 +372,15 @@ namespace Countdown {
                 lhsIndex++
                 if (lhsIndex >= asyncValues.length - 1) {
                     // Finished both loops; we're done.
-                    /*
-                    console.log(`Sort started on ${n.allSolutions.length} items @ ${game.runtime()}.`)
-                    n.allSolutions.sort((v1: Value, v2: Value) =>
-                        v1.compareTo(v2, n.target))
-                        */
                     n.solved = true
                 } else {
                     rhsIndex = lhsIndex + 1
                 }
             }
             if (!n.solved) {
-                console.log(`Inner loop pass ${lhsIndex}-${rhsIndex} started @ ${game.runtime()}.`)
+                if (n.verbose) {
+                    console.log(`Inner loop pass ${lhsIndex}-${rhsIndex} started @ ${game.runtime()}.`)
+                }
                 solveInnerLoop(asyncValues, n, lhsIndex, rhsIndex)
                 rhsIndex++
             }

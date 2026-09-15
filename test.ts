@@ -196,7 +196,7 @@ function startNumberTest(): void {
     for (let i: number = 0; i < 4; i++) {
         Countdown.addSmall()
     }
-    startTest(`Numbers round test ${currNumTest}`)
+    startTest(`Numbers round ${currNumTest}`)
     Countdown.initNumbersRoundSolve()
     testMode = 2
 }
@@ -228,7 +228,7 @@ game.onUpdate(() => {
         
         case 2:
             if (Countdown.isNumbersSolved()) {
-                finishTest("Numbers round solve")
+                finishTest("Numbers tests")
                 console.log(`Calculations: ${Countdown.getCalculations()}`)
                 testMode = 0
                 calculations.push(Countdown.getCalculations())
