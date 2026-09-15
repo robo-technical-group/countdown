@@ -206,6 +206,14 @@ namespace Countdown {
         }
     }
 
+    export function isNumbersSolved(): boolean {
+        if (currNumbersRound == null) {
+            return false
+        } else {
+            return currNumbersRound.solved
+        }
+    }
+
     export function startNumbersRound(): void {
         if (smalls.length == 0) {
             initNumbersArrays()

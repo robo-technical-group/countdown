@@ -143,3 +143,92 @@ Tutorial.enable()
 g_gameMode = SpriteKind.None
 beginRound()
 */
+
+/**
+ * Timing tests.
+const TOTAL_NUM_TESTS: number = 20
+let currNumTest: number = 0
+let numTests: number[] = []
+let testBeginTime: number = 0
+let testEndTime: number = 0
+let testMode: number = 0
+let testSprite: TextSprite = textsprite.create(" ", Color.Black, Color.Yellow)
+
+function finishTest(testName: string): void {
+    testEndTime = game.runtime()
+    console.log(`${testName} end @ ${testEndTime} (${((testEndTime - testBeginTime) / 1000)} seconds.)`)
+    testSprite.setText(`${testName} finished.`)
+    testSprite.x = 80
+}
+
+function startNextNumberTest(): void {
+    currNumTest++
+    if (currNumTest > TOTAL_NUM_TESTS) {
+        let sum: number = 0
+        numTests.forEach((value: number, index: number) => {
+            sum += value
+        })
+        console.log(`Average numbers solve: ${sum / TOTAL_NUM_TESTS / 1000} seconds.`)
+    } else {
+        startNumberTest()
+    }
+}
+
+function startNumberTests(): void {
+    currNumTest = 0
+    numTests = []
+    startNextNumberTest()
+}
+
+function startNumberTest(): void {
+    Countdown.startNumbersRound()
+    for (let i: number = 0; i < 2; i++) {
+        Countdown.addBig()
+    }
+    for (let i: number = 0; i < 4; i++) {
+        Countdown.addSmall()
+    }
+    startTest(`Numbers round test ${currNumTest}`)
+    Countdown.initNumbersRoundSolve()
+    testMode = 2
+}
+
+function startTest(testName: string): void {
+    testBeginTime = game.runtime()
+    console.log(`${testName} start @ ${testBeginTime}.`)
+    testSprite.setText(`${testName} started.`)
+    testSprite.x = 80
+}
+
+function startWordLists(): void {
+    startTest("Word list build")
+    WordLists.startBuildingWordSets()
+    testMode = 1
+}
+
+game.onUpdate(() => {
+    switch (testMode) {
+        case 1:
+            if (WordLists.isReady()) {
+                finishTest("Word list build")
+                testMode = 0
+                startNumberTests()
+            } else if (!WordLists.isBuilding()) {
+                WordLists.buildNextWordSet()
+            }
+            break
+        
+        case 2:
+            if (Countdown.isNumbersSolved()) {
+                finishTest("Numbers round solve")
+                testMode = 0
+                numTests.push(testEndTime - testBeginTime)
+                startNextNumberTest()
+            } else {
+                Countdown.nextNumberSolveStep()
+            }
+  }
+})
+
+startWordLists()
+ */
