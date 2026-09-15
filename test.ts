@@ -148,6 +148,7 @@ beginRound()
  * Timing tests.
 game.stats = true
 const TOTAL_NUM_TESTS: number = 20
+let calculations: number[] = []
 let currNumTest: number = 0
 let numTests: number[] = []
 let testBeginTime: number = 0
@@ -170,6 +171,11 @@ function startNextNumberTest(): void {
             sum += value
         })
         console.log(`Average numbers solve: ${sum / TOTAL_NUM_TESTS / 1000} seconds.`)
+        let totalCalculations: number = 0
+        calculations.forEach((value: number, index: number) => {
+            totalCalculations += value
+        })
+        console.log(`Average calculation count: ${(totalCalculations / TOTAL_NUM_TESTS) | 0}.`)
     } else {
         startNumberTest()
     }
@@ -177,6 +183,7 @@ function startNextNumberTest(): void {
 
 function startNumberTests(): void {
     currNumTest = 0
+    calculations = []
     numTests = []
     startNextNumberTest()
 }
@@ -224,6 +231,7 @@ game.onUpdate(() => {
                 finishTest("Numbers round solve")
                 console.log(`Calculations: ${Countdown.getCalculations()}`)
                 testMode = 0
+                calculations.push(Countdown.getCalculations())
                 numTests.push(testEndTime - testBeginTime)
                 startNextNumberTest()
             } else {
