@@ -26,10 +26,16 @@ namespace Countdown {
     export function beginFinalScores(): void {
         highScoreFinished = false
         playerOrder = [0,] // 0 represents the current high score.
-        highScoreKey = HIGH_SCORE_SETTINGS_PREFIX +
-            g_gameType.name.charAt(0) + "_" +
-            g_scoreMode.name.charAt(0) + "_" +
-            Players.numPlayers().toString()
+        if (Players.numPlayers() == 1) {
+            highScoreKey = HIGH_SCORE_SETTINGS_PREFIX +
+                g_gameType.name.charAt(0) + "_" +
+                Players.numPlayers().toString()
+        } else {
+            highScoreKey = HIGH_SCORE_SETTINGS_PREFIX +
+                g_gameType.name.charAt(0) + "_" +
+                g_scoreMode.name.charAt(0) + "_" +
+                Players.numPlayers().toString()
+        }
         newHighScore = -1
         if (!settings.exists(highScoreKey)) {
             settings.writeNumber(highScoreKey, -1)
