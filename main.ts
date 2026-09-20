@@ -182,6 +182,7 @@ function beginNewGame(): void {
         Players.unregister(i)
     }
     runSetup()
+    Melodies.playMainTheme()
 }
 
 function beginNextRound(): void {
